@@ -1,0 +1,252 @@
+{
+ "actions": [],
+ "autoname": "VI.######",
+ "creation": "2019-07-25 12:19:20.374769",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "trip_reference",
+  "driver_name",
+  "vehicle_plate_number",
+  "trailer_no",
+  "column_break_5",
+  "date",
+  "mileage",
+  "checklist_section_break",
+  "vehicle_type",
+  "lighting_checklist_section",
+  "lighting_checklist",
+  "brake_system_checklist_section",
+  "brake_checklist",
+  "engine_checklist_section",
+  "engine_checklist",
+  "fuel_system_checklist_section",
+  "fuel_system_checklist",
+  "power_train_checklist_section",
+  "power_train_checklist",
+  "electronics_checklist_section",
+  "electronics_checklist",
+  "electrical_checklist_section",
+  "electrical_checklist",
+  "steering_checklist_section",
+  "steering_checklist",
+  "tires_checklist_section",
+  "tires_checklist",
+  "suspension_checklist_section",
+  "suspension_checklist",
+  "air_systemothers_checklist_section",
+  "air_system_checklist",
+  "tire_checklist_section",
+  "tire_checklist",
+  "vehicle_tires_status_and_pressure_section",
+  "image_upload"
+ ],
+ "fields": [
+  {
+   "fetch_from": "trip_reference.driver",
+   "fieldname": "driver_name",
+   "fieldtype": "Data",
+   "label": "Driver"
+  },
+  {
+   "fetch_from": "trip_reference.vehicle",
+   "fieldname": "vehicle_plate_number",
+   "fieldtype": "Data",
+   "label": "Vehicle Plate No"
+  },
+  {
+   "fetch_from": "trip_reference.trailer",
+   "fieldname": "trailer_no",
+   "fieldtype": "Data",
+   "label": "Trailer No",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_5",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "date",
+   "fieldtype": "Date",
+   "label": "Date"
+  },
+  {
+   "fieldname": "mileage",
+   "fieldtype": "Data",
+   "label": "Mileage"
+  },
+  {
+   "fieldname": "checklist_section_break",
+   "fieldtype": "Section Break",
+   "label": "Routine Checklist"
+  },
+  {
+   "fieldname": "vehicle_type",
+   "fieldtype": "Link",
+   "label": "Vehicle Type",
+   "options": "Vehicle Type"
+  },
+  {
+   "fieldname": "lighting_checklist",
+   "fieldtype": "Table",
+   "options": "Lighting Checklist"
+  },
+  {
+   "fieldname": "brake_checklist",
+   "fieldtype": "Table",
+   "options": "Brake Checklist"
+  },
+  {
+   "fieldname": "engine_checklist",
+   "fieldtype": "Table",
+   "options": "Engine Checklist"
+  },
+  {
+   "fieldname": "fuel_system_checklist",
+   "fieldtype": "Table",
+   "options": "Fuel System Checklist"
+  },
+  {
+   "fieldname": "power_train_checklist",
+   "fieldtype": "Table",
+   "options": "Power Train Checklist"
+  },
+  {
+   "fieldname": "electronics_checklist",
+   "fieldtype": "Table",
+   "options": "Electronics Checklist"
+  },
+  {
+   "fieldname": "electrical_checklist",
+   "fieldtype": "Table",
+   "options": "Electrical Checklist"
+  },
+  {
+   "fieldname": "steering_checklist",
+   "fieldtype": "Table",
+   "options": "Steering Checklist"
+  },
+  {
+   "fieldname": "tires_checklist",
+   "fieldtype": "Table",
+   "options": "Tires Checklist"
+  },
+  {
+   "fieldname": "suspension_checklist",
+   "fieldtype": "Table",
+   "options": "Suspension Checklist"
+  },
+  {
+   "fieldname": "air_system_checklist",
+   "fieldtype": "Table",
+   "options": "Air System Checklist"
+  },
+  {
+   "fieldname": "vehicle_tires_status_and_pressure_section",
+   "fieldtype": "Section Break",
+   "label": "Vehicle Tires Status and Pressure"
+  },
+  {
+   "fieldname": "image_upload",
+   "fieldtype": "Attach Image",
+   "label": "Upload Respective Vehicle Image"
+  },
+  {
+   "fieldname": "tire_checklist",
+   "fieldtype": "Table",
+   "options": "Tire Checklist"
+  },
+  {
+   "fieldname": "trip_reference",
+   "fieldtype": "Link",
+   "label": "Trip Reference",
+   "options": "Vehicle Trip"
+  },
+  {
+   "fieldname": "lighting_checklist_section",
+   "fieldtype": "Section Break",
+   "label": "Lighting Checklist"
+  },
+  {
+   "fieldname": "brake_system_checklist_section",
+   "fieldtype": "Section Break",
+   "label": "Brake System Checklist"
+  },
+  {
+   "fieldname": "engine_checklist_section",
+   "fieldtype": "Section Break",
+   "label": "Engine Checklist"
+  },
+  {
+   "fieldname": "fuel_system_checklist_section",
+   "fieldtype": "Section Break",
+   "label": "Fuel System Checklist"
+  },
+  {
+   "fieldname": "power_train_checklist_section",
+   "fieldtype": "Section Break",
+   "label": "Power Train Checklist"
+  },
+  {
+   "fieldname": "electronics_checklist_section",
+   "fieldtype": "Section Break",
+   "label": "Electronics Checklist"
+  },
+  {
+   "fieldname": "electrical_checklist_section",
+   "fieldtype": "Section Break",
+   "label": "Electrical Checklist"
+  },
+  {
+   "fieldname": "steering_checklist_section",
+   "fieldtype": "Section Break",
+   "label": "Steering Checklist"
+  },
+  {
+   "fieldname": "tires_checklist_section",
+   "fieldtype": "Section Break",
+   "label": "Tires Checklist"
+  },
+  {
+   "fieldname": "suspension_checklist_section",
+   "fieldtype": "Section Break",
+   "label": "Suspension Checklist"
+  },
+  {
+   "fieldname": "air_systemothers_checklist_section",
+   "fieldtype": "Section Break",
+   "label": "Air System/Others Checklist"
+  },
+  {
+   "fieldname": "tire_checklist_section",
+   "fieldtype": "Section Break",
+   "label": "Tire Checklist"
+  }
+ ],
+ "links": [],
+ "modified": "2022-02-16 06:25:43.296277",
+ "modified_by": "Administrator",
+ "module": "Transport Management",
+ "name": "Vehicle Inspection",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "search_fields": "trip_reference,vehicle_type,driver_name,vehicle_plate_number",
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "title_field": "vehicle_plate_number",
+ "track_changes": 1
+}

@@ -1,0 +1,97 @@
+{
+ "actions": [],
+ "creation": "2017-04-25 14:10:41.177611",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "accounting_system",
+  "amount",
+  "currency",
+  "date_of_payment",
+  "reference_no",
+  "paid_to",
+  "payment_method",
+  "payment_account",
+  "status"
+ ],
+ "fields": [
+  {
+   "default": "Pastel",
+   "fieldname": "accounting_system",
+   "fieldtype": "Data",
+   "label": "Accounting System",
+   "read_only": 1
+  },
+  {
+   "fieldname": "amount",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "Amount",
+   "reqd": 1
+  },
+  {
+   "fieldname": "currency",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Currency",
+   "options": "Currency",
+   "reqd": 1
+  },
+  {
+   "fieldname": "date_of_payment",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "Date of Payment",
+   "reqd": 1
+  },
+  {
+   "fieldname": "reference_no",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Reference Number"
+  },
+  {
+   "fieldname": "paid_to",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Paid To",
+   "options": "Employee"
+  },
+  {
+   "fieldname": "payment_method",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Payment Method",
+   "options": "\nCash\nCheque\nBank Transfer",
+   "reqd": 1
+  },
+  {
+   "fieldname": "payment_account",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Payment Account",
+   "options": "\nCRDB\nBank M\nStanbic Bank\nEco Bank\nPetty Cash Fund\nM-Pesa\nInter Africa\nYash International (Fuel Account)\nMount Meru (Fuel Account)\nPetcom (Fuel Account)\nVital Oil (Fuel Account)",
+   "reqd": 1
+  },
+  {
+   "default": "new",
+   "fieldname": "status",
+   "fieldtype": "Data",
+   "hidden": 1,
+   "label": "Status"
+  }
+ ],
+ "istable": 1,
+ "links": [],
+ "modified": "2022-02-16 21:52:36.739058",
+ "modified_by": "Administrator",
+ "module": "Transport Management",
+ "name": "Reference Payment Table",
+ "owner": "Administrator",
+ "permissions": [],
+ "quick_entry": 1,
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "track_changes": 1
+}

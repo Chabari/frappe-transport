@@ -1,0 +1,30 @@
+{
+ "actions": [],
+ "creation": "2019-07-25 17:51:55.389457",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "tire_part"
+ ],
+ "fields": [
+  {
+   "fieldname": "tire_part",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Tire Part"
+  }
+ ],
+ "istable": 1,
+ "links": [],
+ "modified": "2021-12-30 10:36:34.260284",
+ "modified_by": "Administrator",
+ "module": "Transport Management",
+ "name": "Tire Details",
+ "owner": "Administrator",
+ "permissions": [],
+ "quick_entry": 1,
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "track_changes": 1
+}

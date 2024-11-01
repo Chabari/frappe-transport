@@ -1,0 +1,77 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "field:description",
+ "creation": "2017-04-12 19:31:03.657227",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "description",
+  "currency",
+  "fixed_value",
+  "expense_account",
+  "cash_bank_account"
+ ],
+ "fields": [
+  {
+   "fieldname": "description",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Expense Description",
+   "reqd": 1,
+   "unique": 1
+  },
+  {
+   "fieldname": "currency",
+   "fieldtype": "Link",
+   "label": "Currency",
+   "options": "Currency",
+   "reqd": 1
+  },
+  {
+   "fieldname": "fixed_value",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "label": "Fixed Amount",
+   "reqd": 1
+  },
+  {
+   "fieldname": "expense_account",
+   "fieldtype": "Link",
+   "label": "Expense Account",
+   "options": "Account"
+  },
+  {
+   "fieldname": "cash_bank_account",
+   "fieldtype": "Link",
+   "label": "Cash / Bank Account",
+   "options": "Account"
+  }
+ ],
+ "links": [],
+ "modified": "2022-02-22 16:53:49.124568",
+ "modified_by": "Administrator",
+ "module": "Transport Management",
+ "name": "Fixed Expense",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Clearing Agent",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "search_fields": "description",
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "title_field": "description",
+ "track_changes": 1
+}

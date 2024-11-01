@@ -1,0 +1,321 @@
+{
+ "actions": [],
+ "autoname": "naming_series:",
+ "creation": "2021-08-19 13:07:37.742914",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "date",
+  "customer",
+  "loading_date",
+  "column_break_3",
+  "naming_series",
+  "company",
+  "transport_type",
+  "amended_from",
+  "cargo_location_country",
+  "cargo_location_city",
+  "cargo_destination_country",
+  "cargo_destination_city",
+  "section_consignee_shipper",
+  "consignee",
+  "column_break_12",
+  "shipper",
+  "section_border_clearance",
+  "border1_clearing_agent",
+  "border2_clearing_agent",
+  "border3_clearing_agent",
+  "column_break_13",
+  "special_instructions_to_transporter",
+  "section_cargo_information",
+  "cargo_type",
+  "cargo_description",
+  "amount",
+  "cargo",
+  "html1",
+  "section_vehicle_assignment",
+  "assign_transport",
+  "total_assigned",
+  "create_invoice",
+  "section_reference",
+  "reference_doctype",
+  "reference_docname",
+  "column_break_18",
+  "cargo_name",
+  "assignment_status",
+  "version",
+  "units"
+ ],
+ "fields": [
+  {
+   "fieldname": "customer",
+   "fieldtype": "Link",
+   "in_standard_filter": 1,
+   "label": "Customer ",
+   "options": "Customer"
+  },
+  {
+   "default": "Today",
+   "fieldname": "date",
+   "fieldtype": "Date",
+   "label": "Date"
+  },
+  {
+   "fieldname": "column_break_3",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "TORD-.YYYY.-.",
+   "fieldname": "naming_series",
+   "fieldtype": "Select",
+   "label": "Series",
+   "options": "TORD-.YYYY.-.",
+   "reqd": 1
+  },
+  {
+   "fieldname": "company",
+   "fieldtype": "Link",
+   "label": "Company",
+   "options": "Company"
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "Transportation Order",
+   "print_hide": 1,
+   "read_only": 1
+  },
+  {
+   "fieldname": "loading_date",
+   "fieldtype": "Date",
+   "hidden": 1,
+   "label": "Expected Loading Date"
+  },
+  {
+   "fieldname": "transport_type",
+   "fieldtype": "Select",
+   "label": "Transport Type",
+   "options": "Cross Border\nInternal"
+  },
+  {
+   "fieldname": "cargo_location_country",
+   "fieldtype": "Link",
+   "hidden": 1,
+   "label": "Cargo Location Country",
+   "options": "Country"
+  },
+  {
+   "fieldname": "cargo_location_city",
+   "fieldtype": "Link",
+   "hidden": 1,
+   "label": "Cargo Location City",
+   "options": "Transport Location"
+  },
+  {
+   "fieldname": "cargo_destination_country",
+   "fieldtype": "Link",
+   "hidden": 1,
+   "label": "Cargo Destination Country",
+   "options": "Country"
+  },
+  {
+   "fieldname": "cargo_destination_city",
+   "fieldtype": "Link",
+   "hidden": 1,
+   "label": "Cargo Destination City",
+   "options": "Transport Location"
+  },
+  {
+   "fieldname": "section_consignee_shipper",
+   "fieldtype": "Section Break",
+   "hidden": 1,
+   "label": "Consignee and Shipper"
+  },
+  {
+   "fieldname": "consignee",
+   "fieldtype": "Link",
+   "label": "Consignee",
+   "options": "Customer"
+  },
+  {
+   "fieldname": "column_break_12",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "shipper",
+   "fieldtype": "Link",
+   "label": "Shipper",
+   "options": "Customer"
+  },
+  {
+   "fieldname": "section_border_clearance",
+   "fieldtype": "Section Break",
+   "hidden": 1,
+   "label": "Border and Transport Instructions"
+  },
+  {
+   "fieldname": "border1_clearing_agent",
+   "fieldtype": "Link",
+   "label": "Clearing Agent Border 1",
+   "options": "Supplier"
+  },
+  {
+   "fieldname": "border2_clearing_agent",
+   "fieldtype": "Link",
+   "label": "Clearing Agent Border 2",
+   "options": "Supplier"
+  },
+  {
+   "fieldname": "border3_clearing_agent",
+   "fieldtype": "Link",
+   "label": "Clearing Agent Border 3",
+   "options": "Supplier"
+  },
+  {
+   "fieldname": "column_break_13",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "special_instructions_to_transporter",
+   "fieldtype": "Small Text",
+   "label": "Special Instructions to Transporter"
+  },
+  {
+   "fieldname": "section_cargo_information",
+   "fieldtype": "Section Break",
+   "label": "Cargo Information"
+  },
+  {
+   "fieldname": "cargo_type",
+   "fieldtype": "Select",
+   "hidden": 1,
+   "label": "Cargo Type",
+   "options": "\nContainer\nLoose Cargo"
+  },
+  {
+   "fieldname": "cargo_description",
+   "fieldtype": "Data",
+   "hidden": 1,
+   "label": "Cargo Description"
+  },
+  {
+   "fieldname": "amount",
+   "fieldtype": "Float",
+   "hidden": 1,
+   "label": "Quantity"
+  },
+  {
+   "fieldname": "cargo",
+   "fieldtype": "Table",
+   "label": "Cargo",
+   "options": "Cargo Details"
+  },
+  {
+   "fieldname": "html1",
+   "fieldtype": "HTML"
+  },
+  {
+   "fieldname": "section_vehicle_assignment",
+   "fieldtype": "Section Break",
+   "label": "Vehicle Assignment"
+  },
+  {
+   "fieldname": "total_assigned",
+   "fieldtype": "Data",
+   "hidden": 1,
+   "label": "Total Assigned Cargo"
+  },
+  {
+   "fieldname": "section_reference",
+   "fieldtype": "Section Break",
+   "hidden": 1,
+   "label": "References"
+  },
+  {
+   "fieldname": "reference_doctype",
+   "fieldtype": "Link",
+   "in_standard_filter": 1,
+   "label": "Request Origin",
+   "options": "DocType"
+  },
+  {
+   "fieldname": "reference_docname",
+   "fieldtype": "Dynamic Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Requested From",
+   "options": "reference_doctype",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_18",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "cargo_name",
+   "fieldtype": "Data",
+   "hidden": 1,
+   "label": "Cargo Name"
+  },
+  {
+   "default": "Waiting Assignment",
+   "fieldname": "assignment_status",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Assignment Status",
+   "options": "Waiting Assignment\nPartially Assigned\nFully Assigned"
+  },
+  {
+   "fieldname": "version",
+   "fieldtype": "Int",
+   "label": "Version"
+  },
+  {
+   "fieldname": "assign_transport",
+   "fieldtype": "Table",
+   "label": "Assign Vehicle",
+   "options": "Transport Assignment"
+  },
+  {
+   "fieldname": "create_invoice",
+   "fieldtype": "Button",
+   "label": "Create Invoice"
+  },
+  {
+   "fieldname": "units",
+   "fieldtype": "Link",
+   "label": "Unit",
+   "options": "UOM"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2023-08-25 19:10:00.323330",
+ "modified_by": "Administrator",
+ "module": "Transport Management",
+ "name": "Transportation Order",
+ "naming_rule": "By \"Naming Series\" field",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}

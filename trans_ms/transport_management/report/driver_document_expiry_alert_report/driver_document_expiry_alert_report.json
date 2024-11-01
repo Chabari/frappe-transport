@@ -1,0 +1,58 @@
+{
+ "add_total_row": 0,
+ "columns": [],
+ "creation": "2023-01-10 09:04:58.315243",
+ "disable_prepared_report": 0,
+ "disabled": 0,
+ "docstatus": 0,
+ "doctype": "Report",
+ "filters": [],
+ "idx": 0,
+ "is_standard": "Yes",
+ "letter_head": "Main Letter Head",
+ "modified": "2023-01-10 09:04:58.315243",
+ "modified_by": "Administrator",
+ "module": "Transport Management",
+ "name": "Driver Document Expiry Alert Report",
+ "owner": "Administrator",
+ "prepared_report": 0,
+ "query": "SELECT \n    d.full_name                       AS \"Driver Name:Data:400\",\n    dda.document_name                   AS \"Document Type:Data:250\",\n    dda.document_number                 AS \"Reference No:Data:200\",\n    dda.issue_date                      AS \"Issued On:Date:100\",\n    dda.expiry_date                     AS \"Expiring On:Date:100\"\n\nFROM `tabDriver` d\nINNER JOIN `tabDriver Document Attachment` dda\nON d.name=dda.parent\n\nWHERE dda.expiry_date <= date_add(curdate(),interval dda.send_alert_before day)\nAND dda.expiry_date IS NOT NULL\nAND dda.send_alert_before > 0 \nAND d.status = 'Active'\nORDER BY dda.expiry_date",
+ "ref_doctype": "Driver",
+ "report_name": "Driver Document Expiry Alert Report",
+ "report_type": "Query Report",
+ "roles": [
+  {
+   "role": "Clearing Agent"
+  },
+  {
+   "role": "System Manager"
+  },
+  {
+   "role": "Item Manager"
+  },
+  {
+   "role": "Accounts Manager"
+  },
+  {
+   "role": "Accounts User"
+  },
+  {
+   "role": "Sales User"
+  },
+  {
+   "role": "Maintenance User"
+  },
+  {
+   "role": "Sales Manager"
+  },
+  {
+   "role": "Stock User"
+  },
+  {
+   "role": "Fleet Manager"
+  },
+  {
+   "role": "Employee Self Service"
+  }
+ ]
+}

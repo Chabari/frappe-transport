@@ -1,0 +1,67 @@
+{
+ "actions": [],
+ "creation": "2017-05-01 10:34:36.523614",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "description",
+  "reference_no",
+  "issue_date",
+  "expire_date",
+  "attachment",
+  "send_alert_before"
+ ],
+ "fields": [
+  {
+   "fieldname": "description",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Description",
+   "options": "Vehicle Documents Type"
+  },
+  {
+   "fieldname": "reference_no",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Reference Number"
+  },
+  {
+   "fieldname": "issue_date",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "Issue Date"
+  },
+  {
+   "fieldname": "expire_date",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "Expire Date"
+  },
+  {
+   "fieldname": "attachment",
+   "fieldtype": "Attach",
+   "in_list_view": 1,
+   "label": "Attachment"
+  },
+  {
+   "fetch_from": "description.send_alert_before",
+   "fieldname": "send_alert_before",
+   "fieldtype": "Data",
+   "label": "Send Alert Before (Days)",
+   "read_only": 1
+  }
+ ],
+ "istable": 1,
+ "links": [],
+ "modified": "2022-11-23 18:05:43.278053",
+ "modified_by": "Administrator",
+ "module": "Transport Management",
+ "name": "Vehicle Documents",
+ "owner": "Administrator",
+ "permissions": [],
+ "quick_entry": 1,
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "track_changes": 1
+}

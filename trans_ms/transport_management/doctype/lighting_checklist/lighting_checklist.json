@@ -1,0 +1,44 @@
+{
+ "actions": [],
+ "creation": "2019-07-25 15:12:37.003334",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "lighting_check_item",
+  "lighting_mark",
+  "lighting_remarks"
+ ],
+ "fields": [
+  {
+   "fieldname": "lighting_check_item",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Lighting"
+  },
+  {
+   "default": "0",
+   "fieldname": "lighting_mark",
+   "fieldtype": "Check",
+   "in_list_view": 1,
+   "label": "Mark"
+  },
+  {
+   "fieldname": "lighting_remarks",
+   "fieldtype": "Data",
+   "label": "Remarks"
+  }
+ ],
+ "istable": 1,
+ "links": [],
+ "modified": "2021-12-30 10:32:31.669319",
+ "modified_by": "Administrator",
+ "module": "Transport Management",
+ "name": "Lighting Checklist",
+ "owner": "Administrator",
+ "permissions": [],
+ "quick_entry": 1,
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "track_changes": 1
+}

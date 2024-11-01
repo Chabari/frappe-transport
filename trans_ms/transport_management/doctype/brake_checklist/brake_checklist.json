@@ -1,0 +1,44 @@
+{
+ "actions": [],
+ "creation": "2019-07-25 15:47:52.983614",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "brake_system",
+  "mark",
+  "brake_remarks"
+ ],
+ "fields": [
+  {
+   "fieldname": "brake_system",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Brake System"
+  },
+  {
+   "default": "0",
+   "fieldname": "mark",
+   "fieldtype": "Check",
+   "in_list_view": 1,
+   "label": "Mark"
+  },
+  {
+   "fieldname": "brake_remarks",
+   "fieldtype": "Data",
+   "label": "Remarks"
+  }
+ ],
+ "istable": 1,
+ "links": [],
+ "modified": "2021-12-30 10:32:32.667689",
+ "modified_by": "Administrator",
+ "module": "Transport Management",
+ "name": "Brake Checklist",
+ "owner": "Administrator",
+ "permissions": [],
+ "quick_entry": 1,
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "track_changes": 1
+}

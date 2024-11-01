@@ -1,0 +1,314 @@
+{
+ "actions": [],
+ "creation": "2018-09-29 04:20:52.990609",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "disburse_funds",
+  "request_date",
+  "expense_type",
+  "request_description",
+  "request_amount",
+  "request_currency",
+  "column_break_4",
+  "party_type",
+  "party",
+  "invoice_number",
+  "quote_attachment",
+  "conversion_rate",
+  "status_section",
+  "posting_date",
+  "expense_account",
+  "payable_account",
+  "payee",
+  "comment",
+  "column_break_25",
+  "requested_for",
+  "request_hidden_status",
+  "expense_account_currency",
+  "payable_account_currency",
+  "cost_center",
+  "reference",
+  "request_status",
+  "section_break_10",
+  "requested_by",
+  "requested_on",
+  "column_break_15",
+  "recommended_by",
+  "recommended_on",
+  "recommender_comment",
+  "column_break_16",
+  "approved_by",
+  "approved_on",
+  "approver_comment",
+  "column_break_37",
+  "accounts_approved_by",
+  "accounts_approved_on",
+  "accounts_approver_comment",
+  "journal_entry"
+ ],
+ "fields": [
+  {
+   "fieldname": "request_date",
+   "fieldtype": "Date",
+   "label": "Required On Date"
+  },
+  {
+   "fieldname": "expense_type",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Expense",
+   "options": "Fixed Expense"
+  },
+  {
+   "fieldname": "request_description",
+   "fieldtype": "Data",
+   "hidden": 1,
+   "label": "Description"
+  },
+  {
+   "fieldname": "request_amount",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "Amount"
+  },
+  {
+   "fieldname": "request_currency",
+   "fieldtype": "Link",
+   "label": "Currency",
+   "options": "Currency"
+  },
+  {
+   "fieldname": "column_break_4",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "party_type",
+   "fieldtype": "Select",
+   "label": "Party Type",
+   "options": "Employee\nSupplier"
+  },
+  {
+   "fieldname": "party",
+   "fieldtype": "Dynamic Link",
+   "label": "Party",
+   "options": "party_type"
+  },
+  {
+   "fieldname": "invoice_number",
+   "fieldtype": "Data",
+   "label": "Invoice Number"
+  },
+  {
+   "fieldname": "quote_attachment",
+   "fieldtype": "Attach",
+   "label": "Quatation/Invoice"
+  },
+  {
+   "fetch_from": "expense_account.account_currency",
+   "fieldname": "expense_account_currency",
+   "fieldtype": "Link",
+   "label": "Expense Account Currency",
+   "options": "Currency",
+   "read_only": 1
+  },
+  {
+   "default": "1",
+   "fieldname": "conversion_rate",
+   "fieldtype": "Float",
+   "label": "Exchange Rate",
+   "precision": "9",
+   "print_hide": 1
+  },
+  {
+   "fieldname": "status_section",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "posting_date",
+   "fieldtype": "Date",
+   "hidden": 1,
+   "label": "Posting Date"
+  },
+  {
+   "fetch_from": "expense_type.expense_account",
+   "fieldname": "expense_account",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Expense Account",
+   "options": "Account"
+  },
+  {
+   "fetch_from": "expense_type.cash_bank_account",
+   "fieldname": "payable_account",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Payable Account",
+   "options": "Account"
+  },
+  {
+   "fieldname": "payee",
+   "fieldtype": "Data",
+   "label": "Payee",
+   "read_only": 1
+  },
+  {
+   "fieldname": "comment",
+   "fieldtype": "Data",
+   "hidden": 1,
+   "label": "Comment"
+  },
+  {
+   "fieldname": "column_break_25",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "requested_for",
+   "fieldtype": "Link",
+   "hidden": 1,
+   "label": "Requested on Behalf of",
+   "options": "Employee"
+  },
+  {
+   "fieldname": "request_hidden_status",
+   "fieldtype": "Data",
+   "hidden": 1
+  },
+  {
+   "fetch_from": "payable_account.account_currency",
+   "fieldname": "payable_account_currency",
+   "fieldtype": "Link",
+   "label": "Payable Account Currency",
+   "options": "Currency",
+   "read_only": 1
+  },
+  {
+   "fieldname": "cost_center",
+   "fieldtype": "Link",
+   "label": "Cost Center",
+   "options": "Cost Center"
+  },
+  {
+   "fieldname": "reference",
+   "fieldtype": "Link",
+   "label": "Reference",
+   "options": "Requested Funds Details",
+   "read_only": 1
+  },
+  {
+   "default": "open",
+   "fieldname": "request_status",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Status",
+   "read_only": 1
+  },
+  {
+   "fieldname": "section_break_10",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "requested_by",
+   "fieldtype": "Link",
+   "label": "Requested By",
+   "options": "User",
+   "read_only": 1
+  },
+  {
+   "fieldname": "requested_on",
+   "fieldtype": "Datetime",
+   "label": "Requested On",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_15",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "recommended_by",
+   "fieldtype": "Data",
+   "label": "Recommended By",
+   "read_only": 1
+  },
+  {
+   "fieldname": "recommended_on",
+   "fieldtype": "Datetime",
+   "label": "Recommended On",
+   "read_only": 1
+  },
+  {
+   "fieldname": "recommender_comment",
+   "fieldtype": "Data",
+   "label": "Recommender Comment",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_16",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "approved_by",
+   "fieldtype": "Data",
+   "label": "Approved By",
+   "read_only": 1
+  },
+  {
+   "fieldname": "approved_on",
+   "fieldtype": "Datetime",
+   "label": "Approved On",
+   "read_only": 1
+  },
+  {
+   "fieldname": "approver_comment",
+   "fieldtype": "Data",
+   "label": "Approver Comment",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_37",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "accounts_approved_by",
+   "fieldtype": "Data",
+   "label": "Accounts Approved By",
+   "read_only": 1
+  },
+  {
+   "fieldname": "accounts_approved_on",
+   "fieldtype": "Datetime",
+   "label": "Accounts Approved On",
+   "read_only": 1
+  },
+  {
+   "fieldname": "accounts_approver_comment",
+   "fieldtype": "Data",
+   "label": "Accounts Approver Comment",
+   "permlevel": 4
+  },
+  {
+   "depends_on": "eval: !doc.journal_entry",
+   "fieldname": "disburse_funds",
+   "fieldtype": "Button",
+   "label": "Disburse Funds"
+  },
+  {
+   "fieldname": "journal_entry",
+   "fieldtype": "Data",
+   "label": "Journal Entry"
+  }
+ ],
+ "istable": 1,
+ "links": [],
+ "modified": "2022-02-24 08:27:16.944719",
+ "modified_by": "Administrator",
+ "module": "Transport Management",
+ "name": "Requested Funds Accounts Table",
+ "owner": "Administrator",
+ "permissions": [],
+ "quick_entry": 1,
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "track_changes": 1
+}

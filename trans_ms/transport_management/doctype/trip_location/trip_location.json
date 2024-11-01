@@ -1,0 +1,64 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "field:description",
+ "creation": "2017-04-11 23:42:13.642259",
+ "doctype": "DocType",
+ "document_type": "Setup",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "description",
+  "location",
+  "is_local_border",
+  "is_international_border"
+ ],
+ "fields": [
+  {
+   "fieldname": "description",
+   "fieldtype": "Data",
+   "label": "Description",
+   "unique": 1
+  },
+  {
+   "fieldname": "location",
+   "fieldtype": "Data",
+   "label": "Location (Latitude, Longitude)"
+  },
+  {
+   "default": "0",
+   "fieldname": "is_local_border",
+   "fieldtype": "Check",
+   "label": "Is Local Border"
+  },
+  {
+   "default": "0",
+   "fieldname": "is_international_border",
+   "fieldtype": "Check",
+   "label": "Is International Border"
+  }
+ ],
+ "links": [],
+ "modified": "2021-12-13 16:54:51.174965",
+ "modified_by": "Administrator",
+ "module": "Transport Management",
+ "name": "Trip Location",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Clearing Agent",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "track_changes": 1
+}

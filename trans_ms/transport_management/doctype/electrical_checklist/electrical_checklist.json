@@ -1,0 +1,38 @@
+{
+ "actions": [],
+ "creation": "2019-07-26 13:47:40.595867",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "electrical_part",
+  "mark"
+ ],
+ "fields": [
+  {
+   "fieldname": "electrical_part",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Electrical "
+  },
+  {
+   "default": "0",
+   "fieldname": "mark",
+   "fieldtype": "Check",
+   "in_list_view": 1,
+   "label": "Mark"
+  }
+ ],
+ "istable": 1,
+ "links": [],
+ "modified": "2021-12-30 10:32:32.977988",
+ "modified_by": "Administrator",
+ "module": "Transport Management",
+ "name": "Electrical Checklist",
+ "owner": "Administrator",
+ "permissions": [],
+ "quick_entry": 1,
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "track_changes": 1
+}

@@ -1,0 +1,117 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2022-02-03 09:44:09.888378",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "dimension_name",
+  "source_doctype",
+  "source_type",
+  "source_field_name",
+  "child_field_name",
+  "value",
+  "column_break_5",
+  "section_break_9",
+  "target_doctype",
+  "target_type",
+  "target_field_name",
+  "target_child_field_name"
+ ],
+ "fields": [
+  {
+   "fieldname": "dimension_name",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Dimension Name",
+   "options": "Accounting Dimension",
+   "reqd": 1
+  },
+  {
+   "depends_on": "eval:doc.source_type == \"Value\"",
+   "fieldname": "value",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Value",
+   "mandatory_depends_on": "eval:doc.source_type == \"Value\""
+  },
+  {
+   "fieldname": "column_break_5",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "source_doctype",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Source DocType",
+   "options": "DocType",
+   "reqd": 1
+  },
+  {
+   "fieldname": "target_doctype",
+   "fieldtype": "Link",
+   "label": "Target DocType",
+   "options": "DocType",
+   "reqd": 1
+  },
+  {
+   "fieldname": "section_break_9",
+   "fieldtype": "Section Break"
+  },
+  {
+   "depends_on": "eval:doc.source_type == \"Field\" || doc.source_type == \"Child\"",
+   "description": "Field Name from Transportation Assignment Field Type",
+   "fieldname": "source_field_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Source Field Name",
+   "mandatory_depends_on": "eval:doc.source_type == \"Field\" || doc.source_type == \"Child\""
+  },
+  {
+   "depends_on": "eval:doc.source_type == \"Child\"",
+   "fieldname": "child_field_name",
+   "fieldtype": "Data",
+   "label": "Child Field Name",
+   "mandatory_depends_on": "eval:doc.source_type == \"Child\""
+  },
+  {
+   "fieldname": "target_type",
+   "fieldtype": "Select",
+   "label": "Target Type",
+   "options": "Main\nChild"
+  },
+  {
+   "depends_on": "eval:doc.traget_type != \"\"",
+   "fieldname": "target_field_name",
+   "fieldtype": "Data",
+   "label": "Target Field Name",
+   "mandatory_depends_on": "eval:doc.traget_type == \"Main\" || doc.source_type == \"Child\""
+  },
+  {
+   "depends_on": "eval:doc.target_type == \"Child\"",
+   "fieldname": "target_child_field_name",
+   "fieldtype": "Data",
+   "label": "Target Child Field Name",
+   "mandatory_depends_on": "eval:doc.target_type == \"Child\""
+  },
+  {
+   "fieldname": "source_type",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Source Type",
+   "options": "Field\nValue\nChild"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2022-02-22 15:31:40.803284",
+ "modified_by": "Administrator",
+ "module": "Transport Management",
+ "name": "Transport Accounting Dimension",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC"
+}

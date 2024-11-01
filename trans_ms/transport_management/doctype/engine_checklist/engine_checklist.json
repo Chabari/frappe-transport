@@ -1,0 +1,44 @@
+{
+ "actions": [],
+ "creation": "2019-07-25 15:56:37.931062",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "engine_system",
+  "mark",
+  "engine_remarks"
+ ],
+ "fields": [
+  {
+   "fieldname": "engine_system",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Engine "
+  },
+  {
+   "default": "0",
+   "fieldname": "mark",
+   "fieldtype": "Check",
+   "in_list_view": 1,
+   "label": "Mark"
+  },
+  {
+   "fieldname": "engine_remarks",
+   "fieldtype": "Data",
+   "label": "Remarks"
+  }
+ ],
+ "istable": 1,
+ "links": [],
+ "modified": "2021-12-30 10:32:29.960553",
+ "modified_by": "Administrator",
+ "module": "Transport Management",
+ "name": "Engine Checklist",
+ "owner": "Administrator",
+ "permissions": [],
+ "quick_entry": 1,
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "track_changes": 1
+}

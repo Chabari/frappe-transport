@@ -1,0 +1,29 @@
+{
+ "actions": [],
+ "creation": "2021-12-30 00:06:23.613308",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "file_attachment"
+ ],
+ "fields": [
+  {
+   "fieldname": "file_attachment",
+   "fieldtype": "Data",
+   "label": "File Attachment"
+  }
+ ],
+ "istable": 1,
+ "links": [],
+ "modified": "2022-03-18 16:13:02.361280",
+ "modified_by": "Administrator",
+ "module": "Transport Management",
+ "name": "Trip Attachment",
+ "owner": "Administrator",
+ "permissions": [],
+ "quick_entry": 1,
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "track_changes": 1
+}

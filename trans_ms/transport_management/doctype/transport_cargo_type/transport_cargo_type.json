@@ -1,0 +1,55 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "field:cargo_name",
+ "creation": "2022-01-30 15:44:35.159543",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "cargo_name",
+  "permits_section",
+  "permits"
+ ],
+ "fields": [
+  {
+   "fieldname": "cargo_name",
+   "fieldtype": "Data",
+   "label": "Name",
+   "unique": 1
+  },
+  {
+   "fieldname": "permits_section",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "permits",
+   "fieldtype": "Table",
+   "label": "Permits",
+   "options": "Transport Cargo Type Permit"
+  }
+ ],
+ "links": [],
+ "modified": "2022-01-30 15:49:09.699878",
+ "modified_by": "Administrator",
+ "module": "Transport Management",
+ "name": "Transport Cargo Type",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Clearing Agent",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "track_changes": 1
+}

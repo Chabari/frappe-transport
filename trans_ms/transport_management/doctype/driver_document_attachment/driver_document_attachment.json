@@ -1,0 +1,71 @@
+{
+ "actions": [],
+ "creation": "2022-11-23 18:27:27.375775",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "document_name",
+  "document_number",
+  "issue_date",
+  "expiry_date",
+  "attachment",
+  "send_alert_before"
+ ],
+ "fields": [
+  {
+   "columns": 2,
+   "fieldname": "document_name",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Document Name",
+   "options": "Driver Documents"
+  },
+  {
+   "columns": 2,
+   "fieldname": "document_number",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Document Number"
+  },
+  {
+   "columns": 1,
+   "fieldname": "issue_date",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "Issue Date"
+  },
+  {
+   "columns": 1,
+   "fieldname": "expiry_date",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "Expiry Date"
+  },
+  {
+   "fieldname": "attachment",
+   "fieldtype": "Attach",
+   "in_list_view": 1,
+   "label": "Attachment"
+  },
+  {
+   "fetch_from": "document_name.send_alert_before",
+   "fieldname": "send_alert_before",
+   "fieldtype": "Int",
+   "label": "Send Alert Before (Days)",
+   "read_only": 1
+  }
+ ],
+ "istable": 1,
+ "links": [],
+ "modified": "2022-11-23 18:32:10.340657",
+ "modified_by": "Administrator",
+ "module": "Transport Management",
+ "name": "Driver Document Attachment",
+ "owner": "Administrator",
+ "permissions": [],
+ "quick_entry": 1,
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "track_changes": 1
+}

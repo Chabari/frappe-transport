@@ -1,0 +1,41 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "field:description",
+ "creation": "2022-11-23 18:16:31.466372",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "description",
+  "send_alert_before"
+ ],
+ "fields": [
+  {
+   "fieldname": "description",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Description",
+   "reqd": 1,
+   "unique": 1
+  },
+  {
+   "description": "Set number of Days before the Alert should be sent. If No of Days is 0 (Zero) then NO Alert will be sent",
+   "fieldname": "send_alert_before",
+   "fieldtype": "Int",
+   "in_list_view": 1,
+   "label": "Send Alert Before (Days)",
+   "reqd": 1
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2022-11-23 18:20:15.659101",
+ "modified_by": "Administrator",
+ "module": "Transport Management",
+ "name": "Driver Documents",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC"
+}

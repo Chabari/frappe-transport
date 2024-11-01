@@ -1,0 +1,30 @@
+{
+ "actions": [],
+ "creation": "2019-07-25 17:39:40.586536",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "fuel_part"
+ ],
+ "fields": [
+  {
+   "fieldname": "fuel_part",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Vehicle Part"
+  }
+ ],
+ "istable": 1,
+ "links": [],
+ "modified": "2021-12-30 10:36:30.502079",
+ "modified_by": "Administrator",
+ "module": "Transport Management",
+ "name": "Fuel System Details",
+ "owner": "Administrator",
+ "permissions": [],
+ "quick_entry": 1,
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "track_changes": 1
+}

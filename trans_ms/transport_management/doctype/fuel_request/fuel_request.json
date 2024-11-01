@@ -1,0 +1,208 @@
+{
+ "actions": [],
+ "autoname": "FREQ.###",
+ "creation": "2017-09-22 18:34:50.811573",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "company",
+  "customer",
+  "vehicle",
+  "column_break_3",
+  "driver",
+  "driver_name",
+  "vehicle_plate_number",
+  "section_break_8",
+  "main_route",
+  "main_approved_fuel",
+  "column_break_4",
+  "return_route",
+  "return_approved_fuel",
+  "section_requested_fuel",
+  "requested_fuel",
+  "approve_buttons",
+  "section_approved_requests",
+  "approved_requests",
+  "section_references",
+  "reference_doctype",
+  "reference_docname",
+  "column_break_9",
+  "status",
+  "transaction_date"
+ ],
+ "fields": [
+  {
+   "fieldname": "vehicle_plate_number",
+   "fieldtype": "Data",
+   "hidden": 1,
+   "in_list_view": 1,
+   "label": "Vehicle Plate Number",
+   "read_only": 1
+  },
+  {
+   "fieldname": "company",
+   "fieldtype": "Link",
+   "label": "Company",
+   "options": "Company",
+   "read_only": 1,
+   "reqd": 1
+  },
+  {
+   "fieldname": "main_route",
+   "fieldtype": "Link",
+   "label": "Main Route",
+   "options": "Trip Route",
+   "read_only": 1
+  },
+  {
+   "fieldname": "main_approved_fuel",
+   "fieldtype": "Data",
+   "label": "Main Route Approved Amount",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_4",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "return_route",
+   "fieldtype": "Link",
+   "label": "Return Route",
+   "options": "Trip Route",
+   "read_only": 1
+  },
+  {
+   "fieldname": "return_approved_fuel",
+   "fieldtype": "Data",
+   "label": "Return Route Approved Amount",
+   "read_only": 1
+  },
+  {
+   "fieldname": "section_requested_fuel",
+   "fieldtype": "Section Break",
+   "label": "Requested Fuel"
+  },
+  {
+   "fieldname": "requested_fuel",
+   "fieldtype": "Table",
+   "label": "Requested Fuel",
+   "options": "Fuel Request Table"
+  },
+  {
+   "fieldname": "approve_buttons",
+   "fieldtype": "HTML",
+   "label": "Approve Buttons"
+  },
+  {
+   "fieldname": "section_approved_requests",
+   "fieldtype": "Section Break",
+   "label": "Approved/Rejected Requests"
+  },
+  {
+   "fieldname": "approved_requests",
+   "fieldtype": "Table",
+   "label": "Approved/Rejected Requests",
+   "options": "Fuel Request Table",
+   "read_only": 1
+  },
+  {
+   "fieldname": "section_references",
+   "fieldtype": "Section Break",
+   "label": "References"
+  },
+  {
+   "fieldname": "reference_doctype",
+   "fieldtype": "Link",
+   "label": "Reference Module",
+   "options": "DocType",
+   "read_only": 1
+  },
+  {
+   "fieldname": "reference_docname",
+   "fieldtype": "Dynamic Link",
+   "in_list_view": 1,
+   "label": "Requested From",
+   "options": "reference_doctype",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_9",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "Waiting Approval",
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Status",
+   "options": "Waiting Approval\nPartially Processed\nFully Processed",
+   "read_only": 1
+  },
+  {
+   "fieldname": "transaction_date",
+   "fieldtype": "Date",
+   "label": "Transaction Date"
+  },
+  {
+   "fieldname": "customer",
+   "fieldtype": "Link",
+   "label": "Customer",
+   "options": "Customer",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_3",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "vehicle",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Vehicle",
+   "options": "Vehicle",
+   "read_only": 1
+  },
+  {
+   "fieldname": "driver",
+   "fieldtype": "Link",
+   "label": "Driver",
+   "options": "Driver",
+   "read_only": 1
+  },
+  {
+   "fetch_from": "driver.full_name",
+   "fieldname": "driver_name",
+   "fieldtype": "Data",
+   "label": "Driver Name",
+   "read_only": 1
+  },
+  {
+   "fieldname": "section_break_8",
+   "fieldtype": "Section Break"
+  }
+ ],
+ "links": [],
+ "modified": "2022-12-27 21:39:38.765948",
+ "modified_by": "Administrator",
+ "module": "Transport Management",
+ "name": "Fuel Request",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "track_changes": 1
+}

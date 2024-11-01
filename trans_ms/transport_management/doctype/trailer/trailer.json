@@ -1,0 +1,121 @@
+{
+    "actions": [],
+    "allow_rename": 1,
+    "autoname": "field:number_plate",
+    "creation": "2017-03-03 18:29:32.299741",
+    "doctype": "DocType",
+    "document_type": "Document",
+    "editable_grid": 1,
+    "engine": "InnoDB",
+    "field_order": [
+        "number_plate",
+        "chassis_number",
+        "make",
+        "column_break_4",
+        "year",
+        "axles",
+        "trailer_type",
+        "section_break_7",
+        "tyre_specification",
+        "column_break_9",
+        "suspension_type",
+        "section_trailer_documents",
+        "trailer_documents"
+    ],
+    "fields": [{
+            "fieldname": "number_plate",
+            "fieldtype": "Data",
+            "in_list_view": 1,
+            "label": "Number Plate",
+            "reqd": 1,
+            "unique": 1
+        },
+        {
+            "fieldname": "chassis_number",
+            "fieldtype": "Data",
+            "in_list_view": 1,
+            "label": "Chassis Number",
+            "reqd": 1
+        },
+        {
+            "fieldname": "make",
+            "fieldtype": "Data",
+            "label": "Trailer Make"
+        },
+        {
+            "fieldname": "column_break_4",
+            "fieldtype": "Column Break"
+        },
+        {
+            "fieldname": "year",
+            "fieldtype": "Int",
+            "label": "Year"
+        },
+        {
+            "fieldname": "axles",
+            "fieldtype": "Int",
+            "label": "Axles"
+        },
+        {
+            "fieldname": "section_trailer_documents",
+            "fieldtype": "Section Break"
+        },
+        {
+            "fieldname": "trailer_documents",
+            "fieldtype": "Table",
+            "label": "Trailer Documents",
+            "options": "Vehicle Documents"
+        },
+        {
+            "fieldname": "section_break_7",
+            "fieldtype": "Section Break"
+        },
+        {
+            "fieldname": "tyre_specification",
+            "fieldtype": "Select",
+            "label": "Tyre Specification",
+            "options": "Super Single\nDouble Tyres"
+        },
+        {
+            "fieldname": "column_break_9",
+            "fieldtype": "Column Break"
+        },
+        {
+            "fieldname": "suspension_type",
+            "fieldtype": "Select",
+            "label": "Suspension Type",
+            "options": "Leaf Spring\nAir Suspension"
+        },
+        {
+            "fieldname": "trailer_type",
+            "fieldtype": "Select",
+            "label": "Trailer Type",
+            "options": "Flat Bed\nSkeleton\nBox Body\nFuel Tanker\nDropside"
+        }
+    ],
+    "links": [],
+    "modified": "2022-11-28 11:57:08.540071",
+    "modified_by": "Administrator",
+    "module": "Transport Management",
+    "name": "Trailer",
+    "name_case": "UPPER CASE",
+    "owner": "Administrator",
+    "permissions": [{
+        "create": 1,
+        "delete": 1,
+        "email": 1,
+        "export": 1,
+        "print": 1,
+        "read": 1,
+        "report": 1,
+        "role": "Clearing Agent",
+        "share": 1,
+        "write": 1
+    }],
+    "search_fields": "number_plate, chassis_number, make",
+    "show_name_in_global_search": 1,
+    "sort_field": "modified",
+    "sort_order": "DESC",
+    "title_field": "number_plate",
+    "track_changes": 1
+}

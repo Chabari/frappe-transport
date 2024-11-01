@@ -1,0 +1,30 @@
+{
+ "actions": [],
+ "creation": "2019-07-26 12:45:36.311967",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "power_train_part"
+ ],
+ "fields": [
+  {
+   "fieldname": "power_train_part",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Power Train "
+  }
+ ],
+ "istable": 1,
+ "links": [],
+ "modified": "2021-12-30 10:36:32.572996",
+ "modified_by": "Administrator",
+ "module": "Transport Management",
+ "name": "Power Train Details",
+ "owner": "Administrator",
+ "permissions": [],
+ "quick_entry": 1,
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "track_changes": 1
+}

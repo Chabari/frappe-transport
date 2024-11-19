@@ -74,24 +74,23 @@ frappe.ui.form.on('Fuel Request Table', {
         frm.fields_dict.requested_fuel.grid.wrapper.find('.grid-insert-row').hide();
     },
 
-    // create_purchase_order: (frm, cdt, cdn) => {
-    //     const row = locals[cdt][cdn];
-    //     if (row.purchase_order || row.status != "Approved") return;
-    //     console.info("frm", frm);
-    //     frappe.call({
-    //         method: "trans_ms.transport_management.doctype.fuel_request.fuel_request.create_purchase_order",
-    //         args: {
-    //             request_doc: frm.doc,
-    //             item: row,
-    //         },
-    //         callback: function (r) {
-    //             frm.reload_doc();
-    //             frm.refresh_field("requested_fuel");
-    //         }
-    //     });
-    // },
+    create_purchase_order: (frm, cdt, cdn) => {
+        const row = locals[cdt][cdn];
+        if (row.purchase_order || row.status != "Approved") return;
+        console.info("frm", frm);
+        frappe.call({
+            method: "trans_ms.transport_management.doctype.fuel_request.fuel_request.create_purchase_order",
+            args: {
+                request_doc: frm.doc,
+                item: row,
+            },
+            callback: function (r) {
+                frm.reload_doc();
+                frm.refresh_field("requested_fuel");
+            }
+        });
+    },
 });
-
 
 //For approve button
 cur_frm.cscript.approve_request = function (frm) {

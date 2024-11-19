@@ -1,5 +1,6 @@
 {
  "actions": [],
+ "autoname": "format:VT-{DD}-{MM}-{YY}-{####}",
  "creation": "2017-04-18 02:06:03.433433",
  "default_view": "List",
  "doctype": "DocType",
@@ -530,11 +531,12 @@
  ],
  "is_submittable": 1,
  "links": [],
- "modified": "2023-08-30 13:54:12.347014",
+ "modified": "2024-11-18 09:40:11.415987",
  "modified_by": "Administrator",
  "module": "Transport Management",
  "name": "Vehicle Trip",
- "naming_rule": "Expression (old style)",
+ "name_case": "UPPER CASE",
+ "naming_rule": "Expression",
  "owner": "Administrator",
  "permissions": [
   {

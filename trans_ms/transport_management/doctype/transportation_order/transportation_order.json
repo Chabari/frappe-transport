@@ -8,11 +8,13 @@
  "field_order": [
   "date",
   "customer",
+  "currency",
   "loading_date",
   "column_break_3",
   "naming_series",
   "company",
   "transport_type",
+  "exchange_rate",
   "amended_from",
   "cargo_location_country",
   "cargo_location_city",
@@ -290,11 +292,23 @@
    "fieldtype": "Link",
    "label": "Unit",
    "options": "UOM"
+  },
+  {
+   "fieldname": "currency",
+   "fieldtype": "Link",
+   "label": "Currency",
+   "options": "Currency",
+   "reqd": 1
+  },
+  {
+   "fieldname": "exchange_rate",
+   "fieldtype": "Float",
+   "label": "Exchange Rate"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2023-08-25 19:10:00.323330",
+ "modified": "2024-11-18 08:56:29.570375",
  "modified_by": "Administrator",
  "module": "Transport Management",
  "name": "Transportation Order",

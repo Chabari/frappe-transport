@@ -28,3 +28,4 @@ class FixedExpense(Document):
                 filters={"parent": "Transport Settings"},
             ),
         )
+

@@ -62,6 +62,36 @@ frappe.ui.form.on('Transportation Order', {
 	},
 
 
+	currency: function (frm) {
+		frappe.call({
+			method: "frappe.client.get_value",
+			args: {
+				doctype: "Currency Exchange",
+				filters: {
+					from_currency: frm.doc.currency
+				},
+				fieldname: ["exchange_rate"]
+			},
+			callback: function (data) {
+				if(data.message.exchange_rate){
+					frm.set_value('exchange_rate', data.message.exchange_rate);
+					frm.events.set_items_rate(frm)
+
+				}else{
+					frm.set_value('exchange_rate', 1);
+					frm.events.set_items_rate(frm)
+
+				}
+			}
+		});
+	},
+
+	exchange_rate: function (frm) {
+		
+		frm.events.set_items_rate(frm)
+	},
+
+
 	//Fix for bug which did copy cargo details in cargo.
 	check_assignment_table: function (frm) {
 		if (frm.doc.cargo_type == 'Container') {
@@ -372,6 +402,19 @@ frappe.ui.form.on('Transportation Order', {
 			frm.toggle_display('total_assigned', false);
 		}
 	},
+
+	set_items_rate: function (frm) {
+		frm.doc.assign_transport.forEach(function (row) {
+			if(row.rate && frm.doc.exchange_rate){
+				var weight = row.net_weight
+				var rate_tone = row.rate
+				var exchange_rate = frm.doc.exchange_rate
+				var total = weight * rate_tone * exchange_rate
+				frappe.model.set_value('Transport Assignment', row.name, 'total', total);
+			}
+		});
+		frm.refresh_field('assign_transport');
+	},
 	create_invoice: (frm) => {
 		if (frm.is_dirty()) {
 			frappe.throw(__("Plase Save First"));
@@ -449,6 +492,7 @@ frappe.ui.form.on("Transport Assignment", {
 		frm.events.show_submit_button(frm);
 	},
 
+
 	assigned_vehicle: function (frm, cdt, cdn) {
 		//Automatically enter the plate number, trailer and driver
 		//For future reference on how to do this the frappe way. FOr some reason I cant get it to work on child table on first value change
@@ -460,13 +504,14 @@ frappe.ui.form.on("Transport Assignment", {
 				filters: {
 					name: locals[cdt][cdn].assigned_vehicle
 				},
-				fieldname: ["license_plate", "trans_ms_driver", "trans_ms_default_trailer"]
+				fieldname: ["license_plate", "trans_ms_driver", "trans_ms_default_trailer", "trans_ms__driver_name"]
 			},
 			callback: function (data) {
 				// set the returned values in cooresponding fields
 				frappe.model.set_value(cdt, cdn, 'vehicle_plate_number', data.message.license_plate);
 				frappe.model.set_value(cdt, cdn, 'assigned_trailer', data.message.trans_ms_default_trailer);
 				frappe.model.set_value(cdt, cdn, 'assigned_driver', data.message.trans_ms_driver);
+				frappe.model.set_value(cdt, cdn, 'driver_name', data.message.trans_ms__driver_name);
 			}
 		});
 
@@ -487,6 +532,13 @@ frappe.ui.form.on("Transport Assignment", {
 		frappe.after_ajax(function (row) {
 			frm.events.show_hide_assignment(frm, cdt, cdn);
 		});
+	},
+
+	rate: function (frm, cdt, cdn) {
+		var weight = locals[cdt][cdn].net_weight
+		var rate_tone = locals[cdt][cdn].rate
+		var exchange_rate = frm.doc.exchange_rate
+		frappe.model.set_value(cdt, cdn, 'total', (weight * rate_tone * exchange_rate));
 	},
 
 	vehicle_plate_number: function (frm, cdt, cdn) {
@@ -603,6 +655,7 @@ cur_frm.cscript.assign_transport = function (frm) {
 				new_row.cargo_type = cur_frm.doc.cargo_type;
 				new_row.cargo = locals["Cargo Details"][cargo_nm].name;
 				new_row.container_number = container_number;
+				new_row.net_weight = locals["Cargo Details"][cargo_nm].net_weight;
 				new_row.customer = cur_frm.doc.customer;
 				frappe.model.set_value(new_row.doctype, new_row.name, "currency", transport_currency);
 				new_row.expected_loading_date = cur_frm.doc.loading_date;

@@ -33,8 +33,7 @@
    "fieldname": "container_number",
    "fieldtype": "Data",
    "in_list_view": 1,
-   "label": "Container Number",
-   "reqd": 1
+   "label": "Container Number"
   },
   {
    "fieldname": "container_size",
@@ -155,14 +154,16 @@
  ],
  "istable": 1,
  "links": [],
- "modified": "2022-07-14 16:28:08.169829",
+ "modified": "2024-11-15 14:36:14.331711",
  "modified_by": "Administrator",
  "module": "Transport Management",
  "name": "Cargo Details",
+ "naming_rule": "Expression (old style)",
  "owner": "Administrator",
  "permissions": [],
  "quick_entry": 1,
  "sort_field": "modified",
  "sort_order": "DESC",
+ "states": [],
  "track_changes": 1
 }

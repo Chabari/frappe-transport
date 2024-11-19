@@ -324,7 +324,7 @@ def reject_request(**args):
     # Mark the request as open
     doc = frappe.get_doc("Requested Funds Details", args.request_docname)
     doc.db_set("request_status", "Rejected")
-    doc.db_set("request_hidden_status", "2")
+    doc.db_set("request_hidden_status", "0")
     doc.db_set("approved_by", args.user)
     return "Request Updated"
 

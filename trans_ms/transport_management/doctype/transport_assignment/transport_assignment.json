@@ -13,6 +13,7 @@
   "expected_loading_date",
   "column_break_4",
   "container_number",
+  "net_weight",
   "units",
   "section_transporter_details",
   "transporter_type",
@@ -39,8 +40,8 @@
   "item",
   "customer",
   "column_break_32",
-  "currency",
   "rate",
+  "total",
   "section_break_34",
   "loading_date",
   "lodge_permit",
@@ -353,7 +354,7 @@
   {
    "fieldname": "rate",
    "fieldtype": "Currency",
-   "label": "Rate",
+   "label": "Rate(per Tonne)",
    "options": "currency",
    "reqd": 1
   },
@@ -370,23 +371,31 @@
    "hidden": 1
   },
   {
-   "fieldname": "currency",
-   "fieldtype": "Link",
-   "label": "Currency",
-   "options": "Currency",
-   "reqd": 1
-  },
-  {
    "fieldname": "customer",
    "fieldtype": "Link",
    "label": "Customer",
    "options": "Customer"
+  },
+  {
+   "fieldname": "net_weight",
+   "fieldtype": "Float",
+   "label": "Net Weight (Tonnes)",
+   "read_only": 1,
+   "reqd": 1
+  },
+  {
+   "fieldname": "total",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "in_preview": 1,
+   "label": "Total",
+   "read_only": 1
   }
  ],
  "is_submittable": 1,
  "istable": 1,
  "links": [],
- "modified": "2023-08-30 11:16:47.990681",
+ "modified": "2024-11-18 08:56:59.597230",
  "modified_by": "Administrator",
  "module": "Transport Management",
  "name": "Transport Assignment",

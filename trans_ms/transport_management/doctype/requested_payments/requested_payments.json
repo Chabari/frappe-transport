@@ -57,7 +57,7 @@
    "fieldname": "html2",
    "fieldtype": "HTML",
    "label": "Recommendation Buttons",
-   "permlevel": 1
+   "permlevel": 2
   },
   {
    "fieldname": "html1",
@@ -241,7 +241,7 @@
  ],
  "in_create": 1,
  "links": [],
- "modified": "2023-08-30 18:28:04.514051",
+ "modified": "2024-11-18 12:52:52.447381",
  "modified_by": "Administrator",
  "module": "Transport Management",
  "name": "Requested Payments",

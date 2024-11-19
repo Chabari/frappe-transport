@@ -525,16 +525,16 @@ frappe.ui.form.on('Vehicle Trip', {
         });
 
         if (frm.doc.trip_completed == 0) {
-            frm.add_custom_button(__("Complete Trip"), function () {
-                frm.set_value("trip_completed", 1);
-                frm.save();
-                frappe.db.set_value('Vehicle', frm.doc.vehicle, {
-                    current_trip: '',
-                    status: 'Available'
-                }).then(r => {
-                    frappe.msgprint(__(`Vehicle ${frm.doc.vehicle} is Available now`));
-                });
-            });
+            // frm.add_custom_button(__("Complete Trip"), function () {
+            //     frm.set_value("trip_completed", 1);
+            //     frm.save();
+            //     frappe.db.set_value('Vehicle', frm.doc.vehicle, {
+            //         current_trip: '',
+            //         status: 'Available'
+            //     }).then(r => {
+            //         frappe.msgprint(__(`Vehicle ${frm.doc.vehicle} is Available now`));
+            //     });
+            // });
         }
     },
 

@@ -22,11 +22,20 @@ class VehicleTrip(Document):
     #     self.set_driver()
 
     def before_submit(self):
+        self.trip_completed = 1
         self.validate_request_status()
 
     def on_submit(self):
+        self.trip_completed = 1
+        
         if not self.stock_out_entry:
             frappe.throw(_("Stock Out Entry is not set"))
+            
+        vehicle = frappe.get_doc("Vehicle", self.vehicle)
+        vehicle.status = "Available"
+        # vehicle.hidden_status = 2
+        vehicle.trans_ms_current_trip = None
+        vehicle.save()
 
     def onload(self):
         # Load approved fuel for main trip
@@ -64,6 +73,7 @@ class VehicleTrip(Document):
 
     def before_insert(self):
         self.set_driver()
+        self.set_expenses()
 
     def validate(self):
         self.validate_fuel_requests()
@@ -197,7 +207,7 @@ class VehicleTrip(Document):
 @frappe.whitelist(allow_guest=True)
 def create_vehicle_trip(**args):
     args = frappe._dict(args)
-    frappe.msgprint(str(args))
+    # frappe.msgprint(str(args))
     existing_vehicle_trip = frappe.db.get_value(
         "Vehicle Trip",
         {
@@ -228,6 +238,8 @@ def create_vehicle_trip(**args):
                 "main_cargo_category": cargo_details.cargo_type,
                 "customer": args.customer,
                 "trip_route": args.trip_route,
+                "vehicle": args.vehicle,
+                "transporter": args.transporter,
                 "driver": args.driver,
             }
         )
@@ -448,9 +460,9 @@ def create_fund_jl_row(**args):
     allitems = json.loads(items.get('items'))
     company_currency = "TZS"
     company_abbr = ""
-   
     
     for itm in allitems:
+        
         itm = frappe._dict(itm)
         row = frappe.get_doc(itm.request_doctype, itm.request_docname)
         if row.parenttype == "Vehicle Trip":
@@ -545,9 +557,11 @@ def create_fund_jl_row(**args):
     
     jv_doc.flags.ignore_permissions = True
     frappe.flags.ignore_account_permission = True
+    
     for i in allitems:
         itm = frappe._dict(i)
         row = frappe.get_doc(itm.request_doctype, itm.request_docname)
+        # frappe.throw(row.parenttype)
         if row.parenttype == "Vehicle Trip":
             doc = frappe.get_doc("Vehicle Trip", row.parent)
             set_dimension(doc, jv_doc)
@@ -562,9 +576,6 @@ def create_fund_jl_row(**args):
             frappe.set_value(itm.request_doctype, itm.request_docname, "journal_entry", jv_doc.name)
 
     return jv_doc
-    
-
-
 
 @frappe.whitelist()
 def create_stock_out_entry(doc, fuel_stock_out):

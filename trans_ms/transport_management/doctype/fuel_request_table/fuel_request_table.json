@@ -8,6 +8,7 @@
   "column_break_3",
   "create_purchase_order",
   "purchase_order",
+  "journal_entry",
   "section_description",
   "item_code",
   "quantity",
@@ -36,10 +37,9 @@
    "in_list_view": 1,
    "label": "Fuel Type",
    "options": "Item",
-   "search_index": 1,
-   "reqd": 1
+   "reqd": 1,
+   "search_index": 1
   },
-
   {
    "fetch_from": "item_code.item_name",
    "fieldname": "item_name",
@@ -171,11 +171,17 @@
    "label": "Currency",
    "options": "Currency",
    "read_only": 1
+  },
+  {
+   "fieldname": "journal_entry",
+   "fieldtype": "Link",
+   "label": "Journal Entry",
+   "options": "Journal Entry"
   }
  ],
  "istable": 1,
  "links": [],
- "modified": "2022-10-25 16:30:34.850887",
+ "modified": "2024-11-21 17:12:50.050096",
  "modified_by": "Administrator",
  "module": "Transport Management",
  "name": "Fuel Request Table",
@@ -184,5 +190,6 @@
  "quick_entry": 1,
  "sort_field": "modified",
  "sort_order": "DESC",
+ "states": [],
  "track_changes": 1
 }

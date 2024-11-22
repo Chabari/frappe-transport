@@ -60,12 +60,12 @@ frappe.ui.form.on('Requested Payments', {
 		var total_request_usd = 0;
 		var all_approved = true;
 		cur_frm.doc.requested_funds.forEach(function (row) {
-			// if (row.request_currency == 'TZS') {
+			if (row.request_currency == 'USD') {
+				total_request_usd += row.request_amount;
+			}
+			else {
 				total_request_tsh += row.request_amount;
-			// }
-			// else if (row.request_currency == 'USD') {
-			// 	total_request_usd += row.request_amount;
-			// }
+			}
 		});
 
 		//If all requests have been processed, change approval status			
@@ -76,35 +76,38 @@ frappe.ui.form.on('Requested Payments', {
 
 
 
-		// cur_frm.get_field("request_total_amount").wrapper.innerHTML = '<p class="text-muted small">Total Amount Approved</p><b>USD ' + total_request_usd.toLocaleString() + ' <br> TZS ' + total_request_tsh.toLocaleString() + '</b>';
-		cur_frm.get_field("request_total_amount").wrapper.innerHTML = '<p class="text-muted small">Total Amount Approved</p><b>  ' + total_request_tsh.toLocaleString() + '</b>';
+		cur_frm.get_field("request_total_amount").wrapper.innerHTML = '<p class="text-muted small">Total Amount Requested</p><b>USD ' + total_request_usd.toLocaleString() + ' <br> TZS ' + total_request_tsh.toLocaleString() + '</b>';
+		// cur_frm.get_field("request_total_amount").wrapper.innerHTML = '<p class="text-muted small">Total Amount Approved</p><b>  ' + total_request_tsh.toLocaleString() + '</b>';
 
 
 		//For total approved
 		var total_approved_tsh = 0;
 		var total_approved_usd = 0;
-		/*cur_frm.doc.previous_requested_funds.forEach(function(row){
-			if(row.request_status == "Approved" && row.request_currency == 'TZS')
-			{
-				total_approved_tsh += row.request_amount;
-			}
-			else if(row.request_status == "Approved" && row.request_currency == 'USD')
-			{
-				total_approved_usd += row.request_amount;
-			}
-		});
+		if(cur_frm.doc.previous_requested_funds != undefined){
+			cur_frm.doc.previous_requested_funds.forEach(function(row){
+			
+				if(row.request_status == "Approved" && row.request_currency == 'USD')
+				{
+					total_approved_usd += row.request_amount;
+				}else if(row.request_status == "Approved"){
+					total_approved_tsh += row.request_amount;
+				}
+			});
+			cur_frm.get_field("total_approved_amount").wrapper.innerHTML = '<p class="text-muted small">Total Amount Approved</p><b>USD ' + total_approved_usd.toLocaleString() + ' <br> TZS ' + total_approved_tsh.toLocaleString() + '</b>'; 
+		}
 		
-		cur_frm.get_field("total_approved_amount").wrapper.innerHTML = '<p class="text-muted small">Total Amount Approved</p><b>USD ' + total_approved_usd.toLocaleString() + ' <br> TZS ' + total_approved_tsh.toLocaleString() + '</b>'; */
+	
 
 		//For total paid amount
 		var total_tsh = 0;
 		var total_usd = 0;
 		frm.doc.payments_reference.forEach(function (row) {
-			if (row.currency == "TZS") {
-				total_tsh += row.amount;
-			}
-			else if (row.currency == 'USD') {
+
+			if (row.currency == 'USD') {
 				total_usd += row.amount;
+			}else{
+				total_tsh += row.amount;
+
 			}
 		});
 
@@ -136,17 +139,25 @@ frappe.ui.form.on('Requested Payments', {
 			frappe.set_route("query-report", "General Ledger");
 		}, __("View"));
 
-		frappe.throw()
 		let amount_tsh = 0
 		let amount_usd = 0
+		var disbur = 1;
 		frm.doc.accounts_approval.forEach((d) =>{
-			if (d.request_currency == "TZS") {
-				amount_tsh += d.request_amount;
-			}
-			else if (d.request_currency == 'USD') {
+
+			if (d.request_currency == 'USD') {
 				amount_usd += d.request_amount;
+			}else {
+				amount_tsh += d.request_amount;
+
+			}
+			if(!d.journal_entry){
+				disbur = 0
 			}
 		});
+		if(disbur === 1 && frm.doc.payment_status != "Paid"){
+			frm.set_value('payment_status', "Paid");
+			frm.save_or_update();
+		}
 		frm.get_field("total_amount").wrapper.innerHTML = '<p class="text-muted small">Total Amount</p><b>USD ' + amount_usd.toLocaleString() + ' <br> TZS ' + amount_tsh.toLocaleString() + '</b>';
 	},
 
@@ -168,11 +179,15 @@ frappe.ui.form.on('Requested Payments', {
 	},
 
 	show_hide_sections: function (frm) {
-		frm.toggle_display(['request_total_amount', 'html1', 'html2'], (frm.doc.requested_funds.length > 0));
-		//frm.toggle_display('section_previous_requested_funds', (frm.doc.previous_requested_funds.length > 0));
-		//frm.toggle_display('section_payments_details', frm.doc.previous_requested_funds.length > 0);
-		//frm.toggle_display('total_paid_amount', (frm.doc.previous_requested_funds.length > 0));
-		//frm.toggle_display(['requested_funds', 'request_total_amount', 'section_previous_requested_funds', 'total_approved_amount', 'payments_reference', 'total_paid_amount'], true);
+		if(frm.doc.requested_funds != undefined){
+			frm.toggle_display(['request_total_amount', 'html1', 'html2'], (frm.doc.requested_funds.length > 0));
+		}
+		if(frm.doc.previous_requested_funds != undefined){
+			frm.toggle_display('section_previous_requested_funds', (frm.doc.previous_requested_funds.length > 0));
+			frm.toggle_display('section_payments_details', frm.doc.previous_requested_funds.length > 0);
+			frm.toggle_display('total_paid_amount', (frm.doc.previous_requested_funds.length > 0));
+		}
+		frm.toggle_display(['requested_funds', 'request_total_amount', 'section_previous_requested_funds', 'total_approved_amount', 'payments_reference', 'total_paid_amount'], true);
 	},
 
 	get_account_currency (frm, cdt, cdn, account) {
@@ -557,11 +572,11 @@ cur_frm.cscript.populate_child = function (reference_doctype, reference_docname)
 					new_row.request_description = row.request_description;
 					new_row.request_comment = row.request_comment;
 					new_row.request_status = row.request_status;
-					if (row.request_currency == 'TZS') {
-						request_total_amount_tsh += row.request_amount;
-					}
-					else if (row.request_currency == 'USD') {
+
+					if (row.request_currency == 'USD') {
 						request_total_amount_usd += row.request_amount;
+					}else {
+						request_total_amount_tsh += row.request_amount;
 					}
 					cur_frm.refresh_field("requested_funds");
 				}
@@ -591,11 +606,11 @@ cur_frm.cscript.populate_child = function (reference_doctype, reference_docname)
 					new_row.request_description = row.request_description;
 					new_row.request_comment = row.request_comment;
 					new_row.request_status = row.request_status;
-					if (row.request_currency == 'TZS') {
-						request_total_amount_tsh += row.request_amount;
-					}
-					else if (row.request_currency == 'USD') {
+				
+					if (row.request_currency == 'USD') {
 						request_total_amount_usd += row.request_amount;
+					}else {
+						request_total_amount_tsh += row.request_amount;
 					}
 					cur_frm.refresh_field("requested_funds");
 				}
@@ -624,11 +639,12 @@ cur_frm.cscript.populate_child = function (reference_doctype, reference_docname)
 					new_row.request_description = row.request_description;
 					new_row.request_comment = row.request_comment;
 					new_row.request_status = row.request_status;
-					if (row.request_currency == 'TZS') {
-						request_total_amount_tsh += row.request_amount;
-					}
-					else if (row.request_currency == 'USD') {
+					
+					if (row.request_currency == 'USD') {
 						request_total_amount_usd += row.request_amount;
+					}else {
+						request_total_amount_tsh += row.request_amount;
+
 					}
 					cur_frm.refresh_field("requested_funds");
 				}

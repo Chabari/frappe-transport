@@ -336,14 +336,17 @@ def create_sales_invoice(doc, rows):
     for row in rows:
         description = ""
         if row["assigned_vehicle"]:
-            description += "<b>VEHICLE NUMBER: " + row["assigned_vehicle"]
-        if row["route"]:
-            description += "<BR>ROUTE: " + row["route"]
+            description += "<b>" + row["assigned_vehicle"] + "/"+row["assigned_trailer"]+"<b>"
+        # if row["route"]:
+        #     description += "<BR>ROUTE: " + row["route"]
         item = frappe._dict({
                 "item_code": row["item"],
-                "qty": 1,
+                "qty": row['net_weight'],
                 "uom": frappe.get_value("Item", row["item"], "stock_uom"),
-                "rate": row["total"],
+                "rate": row["rate"],
+                "weight_per_unit": row['net_weight'],
+                "reference_dt": "Transport Assignment",
+                "reference_dn": row['name'],
                 "cost_center": row["assigned_vehicle"] + " - " + company_abbr,
                 "description": description,
             }
@@ -354,7 +357,7 @@ def create_sales_invoice(doc, rows):
         dict(
             doctype="Sales Invoice",
             customer=doc.customer,
-            currency=row["currency"],
+            currency=doc.currency,
             posting_date=nowdate(),
             company=doc.company,
             items=items,
@@ -375,6 +378,6 @@ def create_sales_invoice(doc, rows):
         if item.name in [i["name"] for i in rows]:
             item.invoice = invoice.name
     doc.save()
-    frappe.msgprint(_("Sales Inoice {0} Created").format(invoice.name), alert=True)
+    # frappe.msgprint(_("Sales Inoice {0} Created").format(invoice.name), alert=True)
     return invoice
 

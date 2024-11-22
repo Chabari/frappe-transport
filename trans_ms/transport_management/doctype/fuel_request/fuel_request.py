@@ -223,7 +223,84 @@ def approve_request(**args):
     doc.db_set("approved_by", args.user)
     doc.db_set("approved_date", timestamp)
     set_status(args.request_docname)
+    create_fuel_jounal(doc)
     return "Request Updated"
+
+@frappe.whitelist()
+def create_fuel_jounal(doc):
+    parent_request_name = frappe.db.get_value(
+        "Fuel Request", {"reference_docname": doc.parent}
+    )
+    parent_request_doc = frappe.get_doc("Fuel Request", parent_request_name)
+    vehicle = frappe.get_doc("Vehicle", parent_request_doc.vehicle)
+    if vehicle.custom_default_fuel_expense_account:
+        company_abbr = frappe.db.get_value(
+            "Company",
+            parent_request_doc.company,
+            "abbr",
+        )
+        
+        if doc.journal_entry:
+            frappe.throw("Journal Entry Already Created")
+
+        if doc.status != "Approved":
+            frappe.throw("Fund Request is not Approved")
+
+        accounts = []
+        
+        multi_currency = 0
+        debit_exchange_rate = 1
+        debit_amount = doc.total_cost
+        credit_exchange_rate = 1
+        credit_amt = doc.total_cost
+
+        default_payable_account = frappe.get_value("Transport Settings", None, "default_payable_account")
+
+        debit_row = dict(
+            account=vehicle.custom_default_fuel_expense_account,
+            exchange_rate=debit_exchange_rate,
+            cost_center=vehicle.name + " - " + company_abbr,
+            debit_in_account_currency=debit_amount,
+        )
+        accounts.append(debit_row)
+
+        credit_row = dict(
+            account=default_payable_account,
+            exchange_rate=credit_exchange_rate,
+            cost_center=vehicle.name + " - " + company_abbr,
+            credit_in_account_currency=credit_amt,
+        )
+        accounts.append(credit_row)
+
+        company = parent_request_doc.company
+        user_remark = "Fuel for Vehicle Trip No: {0}".format(parent_request_doc.reference_docname)
+        date = nowdate()
+        jv_doc = frappe.get_doc(
+            dict(
+                doctype="Journal Entry",
+                posting_date=date,
+                accounts=accounts,
+                company=company,
+                multi_currency=multi_currency,
+                user_remark=user_remark,
+            )
+        )
+        
+        jv_doc.flags.ignore_permissions = True
+        frappe.flags.ignore_account_permission = True
+        set_dimension(doc, jv_doc)
+        for account_row in jv_doc.accounts:
+            set_dimension(doc, jv_doc, tr_child=account_row)
+        jv_doc.save()
+        jv_doc.submit()
+        jv_url = frappe.utils.get_url_to_form(jv_doc.doctype, jv_doc.name)
+        si_msgprint = "Journal Entry Created <a href='{0}'>{1}</a>".format(
+            jv_url, jv_doc.name
+        )
+        frappe.set_value("Fuel Request Table", doc.name, "journal_entry", jv_doc.name)
+        return jv_doc
+
+
 
 
 @frappe.whitelist(allow_guest=True)
@@ -238,9 +315,9 @@ def reject_request(**args):
     doc.db_set("status", "Rejected")
     doc.db_set("approved_by", args.user)
     doc.db_set("approved_date", timestamp)
+    
     set_status(args.request_docname)
     return "Request Updated"
-
 
 # @frappe.whitelist()
 # def make_purchase_order(source_name, target_doc=None):

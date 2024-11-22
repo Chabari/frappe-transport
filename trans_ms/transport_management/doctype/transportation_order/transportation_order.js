@@ -665,6 +665,10 @@ cur_frm.cscript.assign_transport = function (frm) {
 				// }
 				// else if (cur_frm.reference_doctype == 'Export') {
 				// 	new_row['export'] = cur_frm.doc.reference_docname;
+				frappe.db.get_single_value('Transport Settings', 'transport_item')
+					.then(transport_item => {
+						new_row.item = transport_item;
+					});
 				// }
 				cur_frm.refresh_field("assign_transport");
 			}

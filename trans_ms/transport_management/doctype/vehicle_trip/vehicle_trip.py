@@ -28,9 +28,6 @@ class VehicleTrip(Document):
     def on_submit(self):
         self.trip_completed = 1
         
-        if not self.stock_out_entry:
-            frappe.throw(_("Stock Out Entry is not set"))
-            
         vehicle = frappe.get_doc("Vehicle", self.vehicle)
         vehicle.status = "Available"
         # vehicle.hidden_status = 2
@@ -127,7 +124,7 @@ class VehicleTrip(Document):
         # validate_requested_funds(self)
         # self.set_expenses()
         self.validate_main_route_inputs()
-
+         
     def validate_fuel_requests(self):
         make_request = False
 
@@ -187,14 +184,20 @@ class VehicleTrip(Document):
                 offloading_date = step.offloading_date
         if offloading_date and not loading_date:
             frappe.throw("Loading Date must be set before Offloading Date")
+            
+        fuel_stock_out = 0
+        for row in self.main_fuel_request:
+            fuel_stock_out += row.quantity
+            
+        self.set("fuel_stock_out", fuel_stock_out)
 
     def validate_request_status(self):
         for row in self.main_fuel_request:
             if row.status not in  ["Rejected", "Approved"]:
                 frappe.throw("<b>All fuel requests must be on either approved or rejected before submitting the trip</b>")
             
-            if row.status == "Approved" and not row.purchase_order:
-                frappe.throw("<b>All approved fuel requests must have Purchase Order before submitting the trip</b>")
+            # if row.status == "Approved" and not row.journal_entry:
+            #     frappe.throw("<b>All approved fuel requests must have a Journal entry before submitting the trip</b>")
         
         for row in self.main_requested_funds:
             if row.request_status not in  ["Rejected", "Approved"]:
@@ -208,6 +211,7 @@ class VehicleTrip(Document):
 def create_vehicle_trip(**args):
     args = frappe._dict(args)
     # frappe.msgprint(str(args))
+    # main_route.total_fuel_consumption_qty
     existing_vehicle_trip = frappe.db.get_value(
         "Vehicle Trip",
         {
@@ -262,10 +266,42 @@ def create_vehicle_trip(**args):
             "trip_route": args.trip_route
         }
         request_funds(**funds_args)
+        
+        vehicle = frappe.get_doc("Vehicle", args.vehicle)
+        # ...............fuel request...................
+        
+        main_route = frappe.get_doc("Trip Route", trip.main_route)
+        if main_route.total_fuel_consumption_qty and flt(main_route.total_fuel_consumption_qty) > 0:
+            fuel_request = frappe.new_doc("Fuel Request")
+            fuel_request.update(
+                {
+                    "vehicle_plate_number": vehicle.license_plate,
+                    "customer": args.customer,
+                    "vehicle": vehicle.name,
+                    "driver": args.driver,
+                    "reference_doctype": "Vehicle Trip",
+                    "reference_docname": trip.name,
+                    "status": "Waiting Approval",
+                }
+            )
+            fuel_request.insert(ignore_permissions=True)
+            
+            main_fuel_request = []
+            
+            row = dict(
+                status="Requested",
+                item_code=vehicle.fuel_type,
+                quantity=flt(main_route.total_fuel_consumption_qty),
+                disburcement_type="From Supplier",
+                cost_per_litre=3000,
+            )
+            main_fuel_request.append(row)
+            trip.set('main_fuel_request', main_fuel_request)
+            trip.fuel_stock_out = flt(main_route.total_fuel_consumption_qty)
+            trip.save(ignore_permissions=True)
 
         # If company vehicle, update vehicle status
         if args.transporter == "In House":
-            vehicle = frappe.get_doc("Vehicle", args.vehicle)
             vehicle.status = "In Trip"
             # vehicle.hidden_status = 2
             vehicle.trans_ms_current_trip = trip.name

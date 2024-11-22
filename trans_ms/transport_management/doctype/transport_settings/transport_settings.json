@@ -9,6 +9,7 @@
   "sales_item_group",
   "fuel_item_group",
   "fuel_item",
+  "transport_item",
   "column_break_4",
   "expense_account_group",
   "cash_bank_account_group",
@@ -92,12 +93,19 @@
    "fieldtype": "Link",
    "label": "Default Receivable Account",
    "options": "Account"
+  },
+  {
+   "fieldname": "transport_item",
+   "fieldtype": "Link",
+   "label": "Transport Item",
+   "options": "Item",
+   "reqd": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2023-09-02 09:36:49.165566",
+ "modified": "2024-11-21 23:29:15.037316",
  "modified_by": "Administrator",
  "module": "Transport Management",
  "name": "Transport Settings",

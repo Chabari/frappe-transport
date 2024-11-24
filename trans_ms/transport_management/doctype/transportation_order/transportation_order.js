@@ -4,8 +4,8 @@
 frappe.ui.form.on('Transportation Order', {
 	onload: function (frm) {
 		// frm.get_field("assign_transport").grid.cannot_add_rows = true;
-		$("*[data-fieldname='assign_transport']").find(".grid-remove-rows").hide();
-		$("*[data-fieldname='assign_transport']").find(".grid-remove-all-rows").hide();
+		// $("*[data-fieldname='assign_transport']").find(".grid-remove-rows").hide();
+		// $("*[data-fieldname='assign_transport']").find(".grid-remove-all-rows").hide();
 		//Load the buttons
 		var html = '<button style="background-color: green; color: #FFF;" class="btn btn-default btn-xs" onclick="cur_frm.cscript.assign_transport(\'' + frm + '\');">Assign Vehicles</button> ';
 		$(frm.fields_dict.html1.wrapper).html(html);
@@ -33,8 +33,8 @@ frappe.ui.form.on('Transportation Order', {
 
 	refresh: function (frm, cdt, cdn) {
 		// frm.get_field("assign_transport").grid.cannot_add_rows = true;
-		$("*[data-fieldname='assign_transport']").find(".grid-remove-rows").hide();
-		$("*[data-fieldname='assign_transport']").find(".grid-remove-all-rows").hide();
+		// $("*[data-fieldname='assign_transport']").find(".grid-remove-rows").hide();
+		// $("*[data-fieldname='assign_transport']").find(".grid-remove-all-rows").hide();
 		//	console.log(frm);
 
 		//Fix assignement details
@@ -58,6 +58,15 @@ frappe.ui.form.on('Transportation Order', {
 					};
 				});
 			});
+
+		var total_assigned = 0;
+		cur_frm.doc.assign_transport.forEach(function(row){			
+			total_assigned += row.net_weight;
+		});
+		if(total_assigned > 0){
+			cur_frm.get_field("total_assigned_weight").wrapper.innerHTML = '<p class="text-muted small">Total Assigned Weight</p><b> ' + total_assigned.toLocaleString() +  ' Tonnes<br><br></b>'; 
+		}
+
 
 	},
 
@@ -487,15 +496,20 @@ frappe.ui.form.on("Transport Assignment", {
 	},
 
 	assign_transport_add: function (frm, cdt, cdn) {
-		if (cur_frm.doc.cargo_type != "Container") {
-			locals[cdt][cdn].customer = frm.doc.customer;
-			locals[cdt][cdn].cargo_type = frm.doc.cargo_type;
-			locals[cdt][cdn].file_number = frm.doc.file_number;
-			//If units are set, copy units to the assignment
-			if (frm.doc.unit) {
-				locals[cdt][cdn].units = frm.doc.unit;
-			}
+		locals[cdt][cdn].customer = frm.doc.customer;
+		locals[cdt][cdn].cargo_type = frm.doc.cargo_type;
+		locals[cdt][cdn].file_number = frm.doc.file_number;
+		//If units are set, copy units to the assignment
+		if (frm.doc.unit) {
+			locals[cdt][cdn].units = frm.doc.unit;
 		}
+		frappe.db.get_single_value('Transport Settings', 'transport_item')
+			.then(transport_item => {
+				locals[cdt][cdn].item = transport_item;
+			});
+		// }
+		// cur_frm.refresh_field("assign_transport");
+		
 	},
 
 	amount: function (frm, cdt, cdn) {

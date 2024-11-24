@@ -37,6 +37,7 @@
   "cargo",
   "html1",
   "section_vehicle_assignment",
+  "total_assigned_weight",
   "assign_transport",
   "total_assigned",
   "create_invoice",
@@ -305,11 +306,17 @@
    "fieldname": "exchange_rate",
    "fieldtype": "Float",
    "label": "Exchange Rate"
+  },
+  {
+   "fieldname": "total_assigned_weight",
+   "fieldtype": "HTML",
+   "label": "Total Assigned Weight",
+   "read_only": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-11-24 18:50:55.347200",
+ "modified": "2024-11-24 20:23:12.919208",
  "modified_by": "Administrator",
  "module": "Transport Management",
  "name": "Transportation Order",

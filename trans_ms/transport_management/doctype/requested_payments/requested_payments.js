@@ -75,7 +75,6 @@ frappe.ui.form.on('Requested Payments', {
 		}
 
 
-
 		cur_frm.get_field("request_total_amount").wrapper.innerHTML = '<p class="text-muted small">Total Amount Requested</p><b>USD ' + total_request_usd.toLocaleString() + ' <br> TZS ' + total_request_tsh.toLocaleString() + '</b>';
 		// cur_frm.get_field("request_total_amount").wrapper.innerHTML = '<p class="text-muted small">Total Amount Approved</p><b>  ' + total_request_tsh.toLocaleString() + '</b>';
 

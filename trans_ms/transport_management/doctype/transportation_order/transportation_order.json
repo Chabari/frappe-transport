@@ -188,6 +188,7 @@
   {
    "fieldname": "section_cargo_information",
    "fieldtype": "Section Break",
+   "hidden": 1,
    "label": "Cargo Information"
   },
   {
@@ -308,7 +309,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-11-18 08:56:29.570375",
+ "modified": "2024-11-24 18:50:55.347200",
  "modified_by": "Administrator",
  "module": "Transport Management",
  "name": "Transportation Order",

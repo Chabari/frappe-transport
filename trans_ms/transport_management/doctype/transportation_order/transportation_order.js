@@ -3,7 +3,7 @@
 
 frappe.ui.form.on('Transportation Order', {
 	onload: function (frm) {
-		frm.get_field("assign_transport").grid.cannot_add_rows = true;
+		// frm.get_field("assign_transport").grid.cannot_add_rows = true;
 		$("*[data-fieldname='assign_transport']").find(".grid-remove-rows").hide();
 		$("*[data-fieldname='assign_transport']").find(".grid-remove-all-rows").hide();
 		//Load the buttons
@@ -32,7 +32,7 @@ frappe.ui.form.on('Transportation Order', {
 	},
 
 	refresh: function (frm, cdt, cdn) {
-		frm.get_field("assign_transport").grid.cannot_add_rows = true;
+		// frm.get_field("assign_transport").grid.cannot_add_rows = true;
 		$("*[data-fieldname='assign_transport']").find(".grid-remove-rows").hide();
 		$("*[data-fieldname='assign_transport']").find(".grid-remove-all-rows").hide();
 		//	console.log(frm);
@@ -61,6 +61,29 @@ frappe.ui.form.on('Transportation Order', {
 
 	},
 
+	customer: function(frm){
+		frappe.call({
+			method: "frappe.client.get_value",
+			args: {
+				doctype: "Customer",
+				filters: {
+					name: frm.doc.customer
+				},
+				fieldname: ["default_currency"]
+			},
+			callback: function (data) {
+				if(data.message.default_currency){
+					frm.set_value('currency', data.message.default_currency);
+				}
+			}
+		});
+
+		frm.doc.assign_transport.forEach(function (row) {
+				frappe.model.set_value('Transport Assignment', row.name, 'customer', frm.doc.customer);
+			
+		});
+		frm.refresh_field('assign_transport');
+	},
 
 	currency: function (frm) {
 		frappe.call({
@@ -465,7 +488,7 @@ frappe.ui.form.on("Transport Assignment", {
 
 	assign_transport_add: function (frm, cdt, cdn) {
 		if (cur_frm.doc.cargo_type != "Container") {
-			locals[cdt][cdn].container_number = 'NIL';
+			// locals[cdt][cdn].container_number = 'NIL';
 			locals[cdt][cdn].cargo_type = frm.doc.cargo_type;
 			locals[cdt][cdn].file_number = frm.doc.file_number;
 			//If units are set, copy units to the assignment

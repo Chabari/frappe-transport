@@ -57,6 +57,12 @@
   "description_2",
   "description_3",
   "description_4",
+  "cargo_location_section",
+  "cargo_location_country",
+  "cargo_location_city",
+  "column_break_gckto",
+  "cargo_destination_country",
+  "cargo_destination_city",
   "section_file_reference",
   "column_break_43",
   "amended_from",
@@ -79,7 +85,6 @@
   {
    "fieldname": "expected_loading_date",
    "fieldtype": "Date",
-   "in_list_view": 1,
    "label": "Expected Loading Date"
   },
   {
@@ -90,7 +95,6 @@
    "fieldname": "container_number",
    "fieldtype": "Data",
    "in_global_search": 1,
-   "in_list_view": 1,
    "in_standard_filter": 1,
    "label": "Container Number"
   },
@@ -107,6 +111,7 @@
    "label": "TRANPORT DETAILS"
   },
   {
+   "default": "In House",
    "fieldname": "transporter_type",
    "fieldtype": "Select",
    "label": "Transporter",
@@ -124,9 +129,9 @@
   {
    "fieldname": "assigned_vehicle",
    "fieldtype": "Link",
+   "in_list_view": 1,
    "label": "Assigned Vehicle",
-   "options": "Vehicle",
-   "read_only": 1
+   "options": "Vehicle"
   },
   {
    "fieldname": "vehicle_plate_number",
@@ -160,7 +165,7 @@
   {
    "fieldname": "assigned_driver",
    "fieldtype": "Link",
-   "hidden": 1,
+   "in_list_view": 1,
    "label": "Assigned Driver",
    "options": "Driver"
   },
@@ -168,14 +173,12 @@
    "fetch_from": "assigned_driver.full_name",
    "fieldname": "driver_name",
    "fieldtype": "Data",
-   "in_list_view": 1,
    "label": "Driver Name",
    "read_only": 1
   },
   {
    "fieldname": "passport_number",
    "fieldtype": "Data",
-   "in_list_view": 1,
    "label": "Driver Passport"
   },
   {
@@ -199,6 +202,7 @@
   {
    "fieldname": "route",
    "fieldtype": "Link",
+   "in_list_view": 1,
    "label": "Trip Route",
    "options": "Trip Route",
    "reqd": 1
@@ -354,6 +358,7 @@
   {
    "fieldname": "rate",
    "fieldtype": "Currency",
+   "in_list_view": 1,
    "label": "Rate(per Tonne)",
    "options": "currency",
    "reqd": 1
@@ -379,8 +384,8 @@
   {
    "fieldname": "net_weight",
    "fieldtype": "Float",
+   "in_list_view": 1,
    "label": "Net Weight (Tonnes)",
-   "read_only": 1,
    "reqd": 1
   },
   {
@@ -390,12 +395,45 @@
    "in_preview": 1,
    "label": "Total",
    "read_only": 1
+  },
+  {
+   "fieldname": "cargo_location_section",
+   "fieldtype": "Section Break",
+   "label": "Cargo Location"
+  },
+  {
+   "fieldname": "cargo_location_country",
+   "fieldtype": "Link",
+   "label": "Cargo Location Country",
+   "options": "Country"
+  },
+  {
+   "fieldname": "cargo_location_city",
+   "fieldtype": "Link",
+   "label": "Cargo Location City",
+   "options": "Transport Location"
+  },
+  {
+   "fieldname": "column_break_gckto",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "cargo_destination_country",
+   "fieldtype": "Link",
+   "label": "Cargo Destination Country",
+   "options": "Country"
+  },
+  {
+   "fieldname": "cargo_destination_city",
+   "fieldtype": "Link",
+   "label": "Cargo Destination City",
+   "options": "Transport Location"
   }
  ],
  "is_submittable": 1,
  "istable": 1,
  "links": [],
- "modified": "2024-11-18 08:56:59.597230",
+ "modified": "2024-11-24 19:23:47.839786",
  "modified_by": "Administrator",
  "module": "Transport Management",
  "name": "Transport Assignment",

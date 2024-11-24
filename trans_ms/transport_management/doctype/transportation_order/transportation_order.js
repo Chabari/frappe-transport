@@ -488,7 +488,7 @@ frappe.ui.form.on("Transport Assignment", {
 
 	assign_transport_add: function (frm, cdt, cdn) {
 		if (cur_frm.doc.cargo_type != "Container") {
-			// locals[cdt][cdn].container_number = 'NIL';
+			locals[cdt][cdn].customer = frm.doc.customer;
 			locals[cdt][cdn].cargo_type = frm.doc.cargo_type;
 			locals[cdt][cdn].file_number = frm.doc.file_number;
 			//If units are set, copy units to the assignment

@@ -28,8 +28,8 @@ frappe.ui.form.on('Requested Payments', {
 		// 	frm.events.show_hide_sections(frm);
 		// });
 
-		var htmd = '<button style="background-color: black; color: #FFF;" class="btn btn-default btn-xs" onclick="cur_frm.cscript.disburse_request(\'' + frm + '\');">Disburse</button> ';
-		$(frm.fields_dict.disburse_buttons.wrapper).html(htmd);
+		// var htmd = '<button style="background-color: black; color: #FFF;" class="btn btn-default btn-xs" onclick="cur_frm.cscript.disburse_request(\'' + frm + '\');">Disburse</button> ';
+		// $(frm.fields_dict.disburse_buttons.wrapper).html(htmd);
 
 	},
 
@@ -357,42 +357,6 @@ cur_frm.cscript.recommend_against_request = function (frm) {
 	}
 };
 
-
-//For approve button
-cur_frm.cscript.approve_request = function (frm) {
-	var selected = cur_frm.get_selected();
-	if (selected['requested_funds']) {
-		frappe.confirm(
-			'Confirm: Approve selected requests?',
-			function () {
-				$.each(selected['requested_funds'], function (index, value) {
-					frappe.call({
-						method: "trans_ms.transport_management.doctype.requested_payments.requested_payments.approve_request",
-						freeze: true,
-						args: {
-							request_doctype: "Requested Funds Details",
-							request_docname: value,
-							user: frappe.user.full_name()
-						},
-						callback: function (data) {
-							//alert(JSON.stringify(data));
-						}
-					});
-				});
-				location.reload();
-			},
-			function () {
-				//Do nothing
-			}
-		);
-	}
-	else {
-		show_alert("Error: Please select requests to process.");
-	}
-};
-
-
-
 //For approve button
 cur_frm.cscript.disburse_request = function (frm) {
 	var selected = cur_frm.get_selected();
@@ -431,6 +395,52 @@ cur_frm.cscript.disburse_request = function (frm) {
 	}
 	else {
 		show_alert("Error: Please select accounts to process.");
+	}
+};
+
+
+
+
+//For approve button
+cur_frm.cscript.approve_request = function (frm) {
+	var selected = cur_frm.get_selected();
+	if (selected['requested_funds']) {
+		
+	
+		var items = [];
+		$.each(selected['requested_funds'], function (index, value) {
+			var args = {
+				request_doctype: "Requested Funds Details",
+				request_docname: value,
+				user: frappe.user.full_name()
+			};
+			items.push(args)
+		});
+		frappe.confirm(
+			'Confirm: Disburse selected requests?',
+			function () {
+				
+				frappe.call({
+					method: "trans_ms.transport_management.doctype.vehicle_trip.vehicle_trip.create_fund_jl_row",
+					freeze: true,
+					args: {
+						'items': items
+					},
+					callback: function (data) {
+						//alert(JSON.stringify(data));
+						//frm.reload_doc();
+						frappe.set_route('Form', data.message.doctype, data.message.name);
+					}
+				});
+				// location.reload();
+			},
+			function () {
+				//Do nothing
+			}
+		);
+	}
+	else {
+		show_alert("Error: Please select requests to process.");
 	}
 };
 
@@ -701,36 +711,7 @@ frappe.ui.form.on('Requested Funds Accounts Table', {
 
 
 //For approve button
-cur_frm.cscript.approve_request = function (frm) {
-	var selected = cur_frm.get_selected();
-	if (selected['requested_funds']) {
-		frappe.confirm(
-			'Confirm: Approve selected requests?',
-			function () {
-				$.each(selected['requested_funds'], function (index, value) {
-					frappe.call({
-						method: "trans_ms.transport_management.doctype.requested_payments.requested_payments.approve_request",
-						freeze: true,
-						args: {
-							request_doctype: "Requested Funds Details",
-							request_docname: value,
-							user: frappe.user.full_name()
-						},
-						callback: function (data) {
-							//alert(JSON.stringify(data));
-						}
-					});
-				});
-				location.reload();
-			},
-			function () {
-				//Do nothing
-			}
-		);
-	} else {
-		show_alert("Error: Please select requests to process.");
-	}
-};
+
 
 //For reject button
 cur_frm.cscript.reject_request = function (frm) {

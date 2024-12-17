@@ -36,7 +36,7 @@ frappe.ui.form.on('Transportation Order', {
 		// $("*[data-fieldname='assign_transport']").find(".grid-remove-rows").hide();
 		// $("*[data-fieldname='assign_transport']").find(".grid-remove-all-rows").hide();
 		//	console.log(frm);
-
+		
 		//Fix assignement details
 		frm.events.check_assignment_table(frm);
 

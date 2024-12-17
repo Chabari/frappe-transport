@@ -301,19 +301,6 @@ def recommend_against_request(**args):
     return "Request Updated"
 
 
-@frappe.whitelist(allow_guest=True)
-def approve_request(**args):
-    args = frappe._dict(args)
-
-    # frappe.db.sql("UPDATE `tabRequested Funds Details` SET request_status = 'Approved', request_hidden_status = 0 WHERE name = %s", args.request_docname)
-    # return args.request_docname
-    # Mark the request as open
-    doc = frappe.get_doc("Requested Funds Details", args.request_docname)
-    doc.db_set("request_status", "Approved")
-    doc.db_set("request_hidden_status", "1")
-    doc.db_set("approved_by", args.user)
-    return "Request Updated"
-
 
 @frappe.whitelist(allow_guest=True)
 def reject_request(**args):
@@ -729,6 +716,19 @@ def approve_request(**args):
     doc.db_set("approved_by", args.user)
     doc.db_set("approved_date", timestamp)
     return "Request Updated"
+
+# @frappe.whitelist(allow_guest=True)
+# def approve_request(**args):
+#     args = frappe._dict(args)
+
+#     # frappe.db.sql("UPDATE `tabRequested Funds Details` SET request_status = 'Approved', request_hidden_status = 0 WHERE name = %s", args.request_docname)
+#     # return args.request_docname
+#     # Mark the request as open
+#     doc = frappe.get_doc("Requested Funds Details", args.request_docname)
+#     doc.db_set("request_status", "Approved")
+#     doc.db_set("request_hidden_status", "1")
+#     doc.db_set("approved_by", args.user)
+#     return "Request Updated"
 
 
 @frappe.whitelist(allow_guest=True)

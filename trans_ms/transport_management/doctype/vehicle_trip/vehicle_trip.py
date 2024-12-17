@@ -33,6 +33,18 @@ class VehicleTrip(Document):
         # vehicle.hidden_status = 2
         vehicle.trans_ms_current_trip = None
         vehicle.save()
+        
+    def on_cancel(self):
+        vehicle = frappe.get_doc("Vehicle", self.vehicle)
+        vehicle.status = "Available"
+        vehicle.trans_ms_current_trip = None
+        vehicle.save()
+        
+    def on_trash(self):
+        vehicle = frappe.get_doc("Vehicle", self.vehicle)
+        vehicle.status = "Available"
+        vehicle.trans_ms_current_trip = None
+        vehicle.save()
 
     def onload(self):
         # Load approved fuel for main trip
@@ -291,7 +303,7 @@ def create_vehicle_trip(**args):
                 status="Requested",
                 item_code=vehicle.fuel_type,
                 quantity=flt(main_route.total_fuel_consumption_qty),
-                disburcement_type="From Supplier",
+                disburcement_type="Cash",
                 cost_per_litre=3000,
                 total_cost=flt(main_route.total_fuel_consumption_qty) * 3000
             )
@@ -525,49 +537,53 @@ def create_fund_jl_row(**args):
             
             else:
                 if row.request_status != "Approved":
-                    failed += 1
-                    approved.append(row.name)
+                    row.request_status = "Approved"
+                    row.save()
+                    # failed += 1
+                    # approved.append(row.name)
                     # frappe.throw("Fund Request is not Approved")
                     
-                else:
+                # else:
                     
                     # frappe.msgprint(company_currency)
-                    if company_currency != row.request_currency:
-                        multi_currency = 1
-                        exchange_rate = get_exchange_rate(row.request_currency, company_currency)
-                    else:
-                        multi_currency = 0
-                        exchange_rate = 1
+                if company_currency != row.request_currency:
+                    multi_currency = 1
+                    exchange_rate = get_exchange_rate(row.request_currency, company_currency)
+                else:
+                    multi_currency = 0
+                    exchange_rate = 1
 
-                    if row.request_currency != row.expense_account_currency:
-                        debit_amount = row.request_amount * exchange_rate
-                        debit_exchange_rate = exchange_rate
-                    else:
-                        debit_amount = row.request_amount
-                        debit_exchange_rate = 1
+                if row.request_currency != row.expense_account_currency:
+                    debit_amount = row.request_amount * exchange_rate
+                    debit_exchange_rate = exchange_rate
+                else:
+                    debit_amount = row.request_amount
+                    debit_exchange_rate = 1
 
-                    if row.request_currency != row.payable_account_currency:
-                        credit_amt = row.request_amount * exchange_rate
-                        credit_exchange_rate = exchange_rate
-                    else:
-                        credit_amt = row.request_amount
-                        credit_exchange_rate = 1
+                if row.request_currency != row.payable_account_currency:
+                    credit_amt = row.request_amount * exchange_rate
+                    credit_exchange_rate = exchange_rate
+                else:
+                    credit_amt = row.request_amount
+                    credit_exchange_rate = 1
 
-                    debit_row = dict(
-                        account=row.expense_account,
-                        exchange_rate=debit_exchange_rate,
-                        debit_in_account_currency=debit_amount,
-                        cost_center=doc.vehicle + " - " + company_abbr,
-                    )
-                    accounts.append(debit_row)
+                debit_row = dict(
+                    account=row.expense_account,
+                    user_remark=row.narration,
+                    exchange_rate=debit_exchange_rate,
+                    debit_in_account_currency=debit_amount,
+                    cost_center=doc.vehicle + " - " + company_abbr,
+                )
+                accounts.append(debit_row)
 
-                    credit_row = dict(
-                        account=row.payable_account,
-                        exchange_rate=credit_exchange_rate,
-                        credit_in_account_currency=credit_amt,
-                        cost_center=doc.vehicle + " - " + company_abbr,
-                    )
-                    accounts.append(credit_row)
+                credit_row = dict(
+                    account=row.payable_account,
+                    user_remark=row.narration,
+                    exchange_rate=credit_exchange_rate,
+                    credit_in_account_currency=credit_amt,
+                    cost_center=doc.vehicle + " - " + company_abbr,
+                )
+                accounts.append(credit_row)
 
                              
     if len(journal) > 0:
@@ -688,3 +704,17 @@ def create_purchase_order(request_doc, item):
     frappe.msgprint(_("Purchase Order {0} is created").format(doc.name))
     frappe.set_value(item.doctype, item.name, "purchase_order", doc.name)
     return doc.name
+
+# Help me write a business model for my company Jaw Knee Whales Sounds. The company deals with electronics selling and sound systems. We lend music equipment for events and churches. Before one is given an equipment, they have to enter some deposit, which will cover as damage charges for the same equipment. Once they make payment via Mpesa, the equipment are released. The deposit is returned back to the borrower once they return them in good condition. This all process has been done manually therefore we as Jaw knee sounds want to automate where once the equipment are returned, and one confirms in the system it is Ok, the system refunds the money back to lendee automatically. We believe Jenga API will facilitate us with the B2C API to help us automate this process. Our target market are the event organizers, Churches, or any individual who want to host an event and utilize our sound equipments. Jaw Knee Whales Sounds Has been in business for one year, and our physical office is at Thika, Kwame Nkuruma Street, Alisa plaza building. 
+
+# The business model should address the following.
+# 1.     What services do you offer?
+# 2.     How do you deliver these services to your customers?  
+# 3.     Who is your target market?
+# 4.     How do you get your customers (how do you advertise)?
+# 5.     How long has the business been in existence?
+# 6.     What is your current method of collecting payments
+# 7.     What is the current price range for your services (min and max) or is it a flat rate?
+# 8.     Physical office?
+# 9.   Active website and social media pages
+# 10.    Customer journey - From the time a customer purchases an item to the point they receive it.

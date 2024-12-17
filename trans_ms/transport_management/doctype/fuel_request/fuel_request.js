@@ -146,7 +146,7 @@ cur_frm.cscript.reject_request = function (frm) {
                         }
                     });
                 });
-                location.reload();
+                // location.reload();
             },
             function () {
                 //Do nothing

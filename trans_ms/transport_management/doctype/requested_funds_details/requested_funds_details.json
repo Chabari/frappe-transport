@@ -50,7 +50,8 @@
   "journal_entry",
   "column_break_45",
   "approved_by",
-  "approved_date"
+  "approved_date",
+  "narration"
  ],
  "fields": [
   {
@@ -327,11 +328,16 @@
   {
    "fieldname": "column_break_45",
    "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "narration",
+   "fieldtype": "Small Text",
+   "label": "Narration"
   }
  ],
  "istable": 1,
  "links": [],
- "modified": "2024-11-18 10:28:53.518217",
+ "modified": "2024-12-16 20:49:29.989083",
  "modified_by": "Administrator",
  "module": "Transport Management",
  "name": "Requested Funds Details",

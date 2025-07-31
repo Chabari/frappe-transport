@@ -25,8 +25,15 @@ class VehicleTrip(Document):
         self.validate_request_status()
 
     def on_submit(self):
-        if not self.stock_out_entry:
-            frappe.throw(_("Stock Out Entry is not set"))
+        # if not self.stock_out_entry:
+        #     frappe.throw(_("Stock Out Entry is not set"))
+        self.trip_completed = 1
+        
+        vehicle = frappe.get_doc("Vehicle", self.vehicle)
+        vehicle.status = "Available"
+        # vehicle.hidden_status = 2
+        vehicle.trans_ms_current_trip = None
+        vehicle.save()
 
     def onload(self):
         # Load approved fuel for main trip

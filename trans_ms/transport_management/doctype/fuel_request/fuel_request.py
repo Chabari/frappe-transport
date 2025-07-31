@@ -212,19 +212,39 @@ def set_status(doc):
 # .
 @frappe.whitelist(allow_guest=True)
 def approve_request(**args):
-    args = frappe._dict(args)
+    try:
+        args = frappe._dict(args)
+        allitems = json.loads(args.get('items'))
 
-    # Timestamp
-    ts = time.time()
-    timestamp = datetime.datetime.fromtimestamp(ts).strftime("%Y-%m-%d %H:%M:%S")
-
-    doc = frappe.get_doc("Fuel Request Table", args.request_docname)
-    doc.db_set("status", "Approved")
-    doc.db_set("approved_by", args.user)
-    doc.db_set("approved_date", timestamp)
-    set_status(args.request_docname)
-    create_fuel_jounal(doc)
-    return "Request Updated"
+        # Timestamp
+        ts = time.time()
+        timestamp = datetime.datetime.fromtimestamp(ts).strftime("%Y-%m-%d %H:%M:%S")
+        
+        processed = 0
+        total = len(allitems)
+        jv_doc = None
+        for itm in allitems:
+            itm = frappe._dict(itm)
+            doc = frappe.get_doc("Fuel Request Table", itm.request_docname)
+            doc.db_set("status", "Approved")
+            doc.db_set("approved_by", itm.user)
+            doc.db_set("approved_date", timestamp)
+            set_status(itm.request_docname)
+            jv_doc = create_fuel_jounal(doc)
+            processed += 1
+        
+        if total > processed:
+            frappe.response.message = f"Failed. Processed {str(processed)} out of {str(total)}"
+            frappe.response.success = False
+            return
+                
+        frappe.response.success = True
+        frappe.response.data = jv_doc
+    
+    except Exception as e:
+        frappe.log_error(frappe.get_traceback(), str(e))
+        frappe.response.message = str(e)
+        frappe.response.success = False
 
 @frappe.whitelist()
 def create_fuel_jounal(doc):
@@ -273,7 +293,7 @@ def create_fuel_jounal(doc):
         accounts.append(credit_row)
 
         company = parent_request_doc.company
-        user_remark = "Fuel for Vehicle Trip No: {0}".format(parent_request_doc.reference_docname)
+        user_remark = "Fuel for Vehicle Trip No: {0} for Vehicle Reg {1}".format(parent_request_doc.reference_docname, vehicle.name)
         date = nowdate()
         jv_doc = frappe.get_doc(
             dict(
@@ -302,23 +322,40 @@ def create_fuel_jounal(doc):
 
 
 
-
 @frappe.whitelist(allow_guest=True)
 def reject_request(**args):
-    args = frappe._dict(args)
+    try:
+        args = frappe._dict(args)
+        allitems = json.loads(args.get('items'))
 
-    # Timestamp
-    ts = time.time()
-    timestamp = datetime.datetime.fromtimestamp(ts).strftime("%Y-%m-%d %H:%M:%S")
-
-    doc = frappe.get_doc("Fuel Request Table", args.request_docname)
-    doc.db_set("status", "Rejected")
-    doc.db_set("approved_by", args.user)
-    doc.db_set("approved_date", timestamp)
+        # Timestamp
+        ts = time.time()
+        timestamp = datetime.datetime.fromtimestamp(ts).strftime("%Y-%m-%d %H:%M:%S")
+        
+        processed = 0
+        total = len(allitems)
+        for itm in allitems:
+            itm = frappe._dict(itm)
+            doc = frappe.get_doc("Fuel Request Table", itm.request_docname)
+            doc.db_set("status", "Approved")
+            doc.db_set("approved_by", itm.user)
+            doc.db_set("approved_date", timestamp)
+            set_status(itm.request_docname)
+            processed += 1
+        
+        if total > processed:
+            frappe.response.message = f"Failed. Processed {str(processed)} out of {str(total)}"
+            frappe.response.success = False
+            return
+                
+        frappe.response.success = True
+        frappe.response.message = "Success. Fuel requests have been processed."
     
-    set_status(args.request_docname)
-    return "Request Updated"
-
+    except Exception as e:
+        frappe.log_error(frappe.get_traceback(), str(e))
+        frappe.response.message = str(e)
+        frappe.response.success = False
+        
 # @frappe.whitelist()
 # def make_purchase_order(source_name, target_doc=None):
 

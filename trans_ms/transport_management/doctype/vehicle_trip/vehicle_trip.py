@@ -509,7 +509,6 @@ def create_fund_jl_row(**args):
                     multi_currency = 1
                     exchange_rate = get_exchange_rate(row.request_currency, company_currency)
                 else:
-                    multi_currency = 0
                     exchange_rate = 1
 
                 if row.request_currency != row.expense_account_currency:

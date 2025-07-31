@@ -203,6 +203,7 @@ class VehicleTrip(Document):
 def create_vehicle_trip(**args):
     args = frappe._dict(args)
     frappe.msgprint(str(args))
+    doc = frappe.get_doc(args.reference_doctype, args.reference_docname)
     existing_vehicle_trip = frappe.db.get_value(
         "Vehicle Trip",
         {
@@ -218,7 +219,7 @@ def create_vehicle_trip(**args):
         # doc.db_set("modified", timestamp)
         return trip
     else:
-        cargo_details = frappe.get_doc("Cargo Details", args.cargo)
+        # cargo_details = frappe.get_doc("Cargo Details", args.cargo)
         trip = frappe.new_doc("Vehicle Trip")
         trip.update(
             {
@@ -226,11 +227,11 @@ def create_vehicle_trip(**args):
                 "reference_docname": args.reference_docname,
                 "status": "En Route",
                 "hidden_status": 2,
-                "main_cargo_location_country": cargo_details.cargo_location_country,
-                "main_cargo_location_city": cargo_details.cargo_location_city,
-                "main_cargo_destination_country": cargo_details.cargo_destination_country,
-                "main_cargo_destination_city": cargo_details.cargo_destination_city,
-                "main_cargo_category": cargo_details.cargo_type,
+                "main_cargo_location_country": doc.cargo_location_country,
+                "main_cargo_location_city": doc.cargo_location_city,
+                "main_cargo_destination_country": doc.cargo_destination_country,
+                "main_cargo_destination_city": doc.cargo_destination_city,
+                "main_cargo_category": None,
                 "customer": args.customer,
                 "trip_route": args.trip_route,
                 "driver": args.driver,

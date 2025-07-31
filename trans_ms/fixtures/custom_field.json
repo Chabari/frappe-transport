@@ -359,16 +359,6 @@
     "options": "Trailer"
   },
   {
-    "name": "Vehicle-status",
-    "modified": "2022-07-08 16:23:25.536562",
-    "dt": "Vehicle",
-    "label": "Current Trip",
-    "fieldname": "status",
-    "insert_after": "trans_ms_current_trip",
-    "fieldtype": "Data",
-    "doctype": "Custom Field"
-  },
-  {
     "name": "Vehicle-trans_ms_fuel_consumption",
     "modified": "2022-03-08 00:50:54.604274",
     "dt": "Vehicle",

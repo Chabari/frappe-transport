@@ -182,6 +182,12 @@ fixtures = [
                     "Vehicle-column_break_5",
                     "Vehicle-status",
                     "Vehicle-current_trip",
+                    "Transportation Order-custom_total_weight",
+                    "Vehicle Trip-custom_transport_order",
+                    "Vehicle Trip-custom_transport_type",
+                    "Vehicle-custom_default_fuel_expense_account",
+                    "Vehicle Trip-custom_rate",
+                    "Vehicle Trip-custom_amount"
                 ),
             ]
         ],

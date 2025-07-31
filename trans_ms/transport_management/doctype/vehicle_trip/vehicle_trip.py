@@ -231,9 +231,15 @@ def create_vehicle_trip(**args):
                 "main_cargo_location_city": doc.cargo_location_city,
                 "main_cargo_destination_country": doc.cargo_destination_country,
                 "main_cargo_destination_city": doc.cargo_destination_city,
+                "custom_transport_type": args.transport_type,
+                "custom_transport_order": doc.parent,
                 "main_cargo_category": None,
                 "customer": args.customer,
                 "trip_route": args.trip_route,
+                "vehicle": args.vehicle,
+                "custom_rate": doc.rate,
+                "custom_amount": (doc.rate * doc.net_weight),
+                "transporter": args.transporter,
                 "driver": args.driver,
             }
         )

@@ -226,12 +226,13 @@ def approve_request(**args):
         for itm in allitems:
             itm = frappe._dict(itm)
             doc = frappe.get_doc("Fuel Request Table", itm.request_docname)
-            doc.db_set("status", "Approved")
-            doc.db_set("approved_by", itm.user)
-            doc.db_set("approved_date", timestamp)
-            set_status(itm.request_docname)
             jv_doc = create_fuel_jounal(doc)
-            processed += 1
+            if jv_doc:
+                doc.db_set("status", "Approved")
+                doc.db_set("approved_by", itm.user)
+                doc.db_set("approved_date", timestamp)
+                set_status(itm.request_docname)
+                processed += 1
         
         if total > processed:
             frappe.response.message = f"Failed. Processed {str(processed)} out of {str(total)}"

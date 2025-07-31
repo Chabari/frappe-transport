@@ -117,7 +117,6 @@ cur_frm.cscript.approve_request = function (frm) {
                         callback: function (data) {
                             if(data.success == false){
                                 frappe.msgprint(__(data.message));
-                                location.reload();
                                 return
                             }
 						    frappe.set_route('Form', data.data.doctype, data.data.name);

@@ -11,6 +11,7 @@ from frappe import _, msgprint
 from frappe.model.mapper import get_mapped_doc
 from frappe.utils import nowdate
 from trans_ms.utlis.dimension import set_dimension
+from frappe.utils import nowdate, cstr, cint, flt, comma_or, now
 
 
 class FuelRequest(Document):
@@ -226,7 +227,11 @@ def approve_request(**args):
         for itm in allitems:
             itm = frappe._dict(itm)
             doc = frappe.get_doc("Fuel Request Table", itm.request_docname)
-            jv_doc = create_fuel_jounal(doc)
+            if doc.disburcement_type == "Cash":
+                jv_doc = create_fuel_jounal(doc)
+            else:
+                jv_doc = create_stock_entry(doc)
+                
             if jv_doc:
                 doc.db_set("status", "Approved")
                 doc.db_set("approved_by", itm.user)
@@ -246,6 +251,49 @@ def approve_request(**args):
         frappe.log_error(frappe.get_traceback(), str(e))
         frappe.response.message = str(e)
         frappe.response.success = False
+        
+@frappe.whitelist()
+def create_stock_entry(doc):
+
+    parent_request_name = frappe.db.get_value(
+        "Fuel Request", {"reference_docname": doc.parent}
+    )
+    parent_request_doc = frappe.get_doc("Fuel Request", parent_request_name)
+    
+    if doc.stock_entry:
+        return frappe.get_doc("Stock Entry", doc.stock_entry)
+    fuel_item = frappe.get_value("Transport Settings", None, "fuel_item")
+    if not fuel_item:
+        frappe.throw(_("Please Set Fuel Item in Transport Settings"))
+    warehouse = frappe.get_value("Transport Settings", None, "vehicle_fuel_parent_warehouse")
+    if not warehouse:
+        frappe.throw(_("Please Set Fuel Warehouse in transport settings"))
+    item = {"item_code": fuel_item, "qty": doc.quantity, "valuation_rate": doc.cost_per_litre}
+    stock_entry_doc = frappe.get_doc(
+        dict(
+            doctype="Stock Entry",
+            from_bom=0,
+            posting_date=nowdate(),
+            posting_time=now(),
+            items=[item],
+            stock_entry_type="Material Issue",
+            purpose="Material Issue",
+            from_warehouse=warehouse,
+            # to_warehouse=dispatch_bay_wh,
+            company=parent_request_doc.company,
+            remarks="Transfer for {0} in vehicle {1}".format(
+                parent_request_doc.driver_name,
+                parent_request_doc.vehicle,
+            ),
+        )
+    )
+    set_dimension(doc, stock_entry_doc)
+    set_dimension(doc, stock_entry_doc, tr_child=stock_entry_doc.items[0])
+    stock_entry_doc.insert(ignore_permissions=True)
+    frappe.set_value("Fuel Request Table", doc.name, "stock_entry", stock_entry_doc.name)
+    
+    return stock_entry_doc   
+        
 
 @frappe.whitelist()
 def create_fuel_jounal(doc):
@@ -254,72 +302,75 @@ def create_fuel_jounal(doc):
     )
     parent_request_doc = frappe.get_doc("Fuel Request", parent_request_name)
     vehicle = frappe.get_doc("Vehicle", parent_request_doc.vehicle)
+    
+    default_expense_account = frappe.get_value("Transport Settings", None, "default_expense_account")
     if vehicle.custom_default_fuel_expense_account:
-        company_abbr = frappe.db.get_value(
-            "Company",
-            parent_request_doc.company,
-            "abbr",
+        default_expense_account = vehicle.custom_default_fuel_expense_account
+    company_abbr = frappe.db.get_value(
+        "Company",
+        parent_request_doc.company,
+        "abbr",
+    )
+    
+    if doc.journal_entry:
+        frappe.throw("Journal Entry Already Created")
+
+    # if doc.status != "Approved":
+    #     frappe.throw("Fund Request is not Approved")
+
+    accounts = []
+    
+    multi_currency = 0
+    debit_exchange_rate = 1
+    debit_amount = doc.total_cost
+    credit_exchange_rate = 1
+    credit_amt = doc.total_cost
+
+    default_payable_account = frappe.get_value("Transport Settings", None, "default_payable_account")
+
+    debit_row = dict(
+        account=default_expense_account,
+        exchange_rate=debit_exchange_rate,
+        cost_center=vehicle.name + " - " + company_abbr,
+        debit_in_account_currency=debit_amount,
+    )
+    accounts.append(debit_row)
+
+    credit_row = dict(
+        account=default_payable_account,
+        exchange_rate=credit_exchange_rate,
+        cost_center=vehicle.name + " - " + company_abbr,
+        credit_in_account_currency=credit_amt,
+    )
+    accounts.append(credit_row)
+
+    company = parent_request_doc.company
+    user_remark = "Fuel for Vehicle Trip No: {0} for Vehicle Reg {1}".format(parent_request_doc.reference_docname, vehicle.name)
+    date = nowdate()
+    jv_doc = frappe.get_doc(
+        dict(
+            doctype="Journal Entry",
+            posting_date=date,
+            accounts=accounts,
+            company=company,
+            multi_currency=multi_currency,
+            user_remark=user_remark,
         )
-        
-        if doc.journal_entry:
-            frappe.throw("Journal Entry Already Created")
-
-        # if doc.status != "Approved":
-        #     frappe.throw("Fund Request is not Approved")
-
-        accounts = []
-        
-        multi_currency = 0
-        debit_exchange_rate = 1
-        debit_amount = doc.total_cost
-        credit_exchange_rate = 1
-        credit_amt = doc.total_cost
-
-        default_payable_account = frappe.get_value("Transport Settings", None, "default_payable_account")
-
-        debit_row = dict(
-            account=vehicle.custom_default_fuel_expense_account,
-            exchange_rate=debit_exchange_rate,
-            cost_center=vehicle.name + " - " + company_abbr,
-            debit_in_account_currency=debit_amount,
-        )
-        accounts.append(debit_row)
-
-        credit_row = dict(
-            account=default_payable_account,
-            exchange_rate=credit_exchange_rate,
-            cost_center=vehicle.name + " - " + company_abbr,
-            credit_in_account_currency=credit_amt,
-        )
-        accounts.append(credit_row)
-
-        company = parent_request_doc.company
-        user_remark = "Fuel for Vehicle Trip No: {0} for Vehicle Reg {1}".format(parent_request_doc.reference_docname, vehicle.name)
-        date = nowdate()
-        jv_doc = frappe.get_doc(
-            dict(
-                doctype="Journal Entry",
-                posting_date=date,
-                accounts=accounts,
-                company=company,
-                multi_currency=multi_currency,
-                user_remark=user_remark,
-            )
-        )
-        
-        jv_doc.flags.ignore_permissions = True
-        frappe.flags.ignore_account_permission = True
-        set_dimension(doc, jv_doc)
-        for account_row in jv_doc.accounts:
-            set_dimension(doc, jv_doc, tr_child=account_row)
-        jv_doc.save()
-        jv_doc.submit()
-        jv_url = frappe.utils.get_url_to_form(jv_doc.doctype, jv_doc.name)
-        si_msgprint = "Journal Entry Created <a href='{0}'>{1}</a>".format(
-            jv_url, jv_doc.name
-        )
-        frappe.set_value("Fuel Request Table", doc.name, "journal_entry", jv_doc.name)
-        return jv_doc
+    )
+    
+    jv_doc.flags.ignore_permissions = True
+    frappe.flags.ignore_account_permission = True
+    set_dimension(doc, jv_doc)
+    for account_row in jv_doc.accounts:
+        set_dimension(doc, jv_doc, tr_child=account_row)
+    jv_doc.save()
+    # jv_doc.submit()
+    jv_url = frappe.utils.get_url_to_form(jv_doc.doctype, jv_doc.name)
+    si_msgprint = "Journal Entry Created <a href='{0}'>{1}</a>".format(
+        jv_url, jv_doc.name
+    )
+    frappe.set_value("Fuel Request Table", doc.name, "journal_entry", jv_doc.name)
+    return jv_doc
 
 
 

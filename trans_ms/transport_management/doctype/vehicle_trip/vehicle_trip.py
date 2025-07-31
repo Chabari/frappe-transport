@@ -213,21 +213,22 @@ class VehicleTrip(Document):
             if row.status not in  ["Rejected", "Approved"]:
                 frappe.throw("<b>All fuel requests must be on either approved or rejected before submitting the trip</b>")
             
-            # if row.status == "Approved" and not row.purchase_order:
-            #     frappe.throw("<b>All approved fuel requests must have Purchase Order before submitting the trip</b>")
-        
+            if not row.journal_entry or not row.stock_entry:
+                    frappe.throw("<b>All fuel requests must have a Journal Entry or Stock Entry before submitting the trip</b>")
+
         for row in self.main_requested_funds:
             if row.request_status not in  ["Rejected", "Approved"]:
                 frappe.throw("<b>All fund requests must be on either approved or rejected before submitting the trip</b>")
             
-            if row.request_status == "Approved" and not row.journal_entry:
-                frappe.throw("<b>All approved fund requests must have a Journal Entry before submitting the trip</b>")
+            if row.request_status == "Approved":
+                if not row.journal_entry:
+                    frappe.throw("<b>All approved fund requests must have a Journal Entry or Stock Entry before submitting the trip</b>")
 
 
 @frappe.whitelist(allow_guest=True)
 def create_vehicle_trip(**args):
     args = frappe._dict(args)
-    frappe.msgprint(str(args))
+    # frappe.msgprint(str(args))
     doc = frappe.get_doc(args.reference_doctype, args.reference_docname)
     if not args.vehicle:
         frappe.throw("<b>Failed, Please select vehicle first.</b>")
@@ -290,11 +291,13 @@ def create_vehicle_trip(**args):
             "trip_route": args.trip_route
         }
         request_funds(**funds_args)
+        
         vehicle = frappe.get_doc("Vehicle", args.vehicle)
+        fuel_item = frappe.get_value("Transport Settings", None, "fuel_item")
         # ...............fuel request...................
         
         main_route = frappe.get_doc("Trip Route", trip.main_route)
-        if main_route.total_fuel_consumption_qty and flt(main_route.total_fuel_consumption_qty) > 0:
+        if main_route.total_fuel_consumption_qty and flt(main_route.total_fuel_consumption_qty) > 0 and fuel_item:
             fuel_request = frappe.new_doc("Fuel Request")
             fuel_request.update(
                 {
@@ -313,9 +316,9 @@ def create_vehicle_trip(**args):
             
             row = dict(
                 status="Requested",
-                item_code=vehicle.fuel_type,
+                item_code=fuel_item,
                 quantity=flt(main_route.total_fuel_consumption_qty),
-                disburcement_type="Cash",
+                disburcement_type="Stock Entry",
                 cost_per_litre=3000,
                 total_cost=flt(main_route.total_fuel_consumption_qty) * 3000
             )

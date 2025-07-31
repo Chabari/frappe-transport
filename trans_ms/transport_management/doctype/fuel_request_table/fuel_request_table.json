@@ -9,6 +9,7 @@
   "create_purchase_order",
   "purchase_order",
   "journal_entry",
+  "stock_entry",
   "section_description",
   "item_code",
   "quantity",
@@ -68,7 +69,7 @@
    "fieldtype": "Select",
    "in_list_view": 1,
    "label": "Disburcement Type",
-   "options": "Cash",
+   "options": "Cash\nStock Entry",
    "reqd": 1
   },
   {
@@ -178,11 +179,17 @@
    "fieldtype": "Link",
    "label": "Journal Entry",
    "options": "Journal Entry"
+  },
+  {
+   "fieldname": "stock_entry",
+   "fieldtype": "Link",
+   "label": "Stock Entry",
+   "options": "Stock Entry"
   }
  ],
  "istable": 1,
  "links": [],
- "modified": "2024-12-01 07:56:40.505987",
+ "modified": "2025-07-31 19:57:55.182640",
  "modified_by": "Administrator",
  "module": "Transport Management",
  "name": "Fuel Request Table",

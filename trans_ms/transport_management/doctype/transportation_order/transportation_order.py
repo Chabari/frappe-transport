@@ -334,7 +334,7 @@ def create_sales_invoice(doc, rows):
         "abbr",
     )
     for row in rows:
-        description = ""
+        description = row["item"]
         if row["assigned_vehicle"]:
 
             description += "<b>" + row["assigned_vehicle"] + "/"+row["assigned_trailer"] if row.get("assigned_trailer") else ""+"<b>"

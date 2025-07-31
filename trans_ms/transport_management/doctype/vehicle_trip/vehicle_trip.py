@@ -188,8 +188,8 @@ class VehicleTrip(Document):
             if row.status not in  ["Rejected", "Approved"]:
                 frappe.throw("<b>All fuel requests must be on either approved or rejected before submitting the trip</b>")
             
-            if row.status == "Approved" and not row.purchase_order:
-                frappe.throw("<b>All approved fuel requests must have Purchase Order before submitting the trip</b>")
+            # if row.status == "Approved" and not row.purchase_order:
+            #     frappe.throw("<b>All approved fuel requests must have Purchase Order before submitting the trip</b>")
         
         for row in self.main_requested_funds:
             if row.request_status not in  ["Rejected", "Approved"]:

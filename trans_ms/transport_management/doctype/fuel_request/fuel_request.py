@@ -264,8 +264,8 @@ def create_fuel_jounal(doc):
         if doc.journal_entry:
             frappe.throw("Journal Entry Already Created")
 
-        if doc.status != "Approved":
-            frappe.throw("Fund Request is not Approved")
+        # if doc.status != "Approved":
+        #     frappe.throw("Fund Request is not Approved")
 
         accounts = []
         

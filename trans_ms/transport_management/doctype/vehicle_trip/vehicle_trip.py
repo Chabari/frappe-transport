@@ -489,49 +489,51 @@ def create_fund_jl_row(**args):
             
             else:
                 if row.request_status != "Approved":
-                    failed += 1
-                    approved.append(row.name)
-                    # frappe.throw("Fund Request is not Approved")
+                    row.request_status = "Approved"
+                    row.save()
+                # if row.request_status != "Approved":
+                #     failed += 1
+                #     approved.append(row.name)
+                #     # frappe.throw("Fund Request is not Approved")
                     
-                else:
-                    
+                # else:
                     # frappe.msgprint(company_currency)
-                    if company_currency != row.request_currency:
-                        multi_currency = 1
-                        exchange_rate = get_exchange_rate(row.request_currency, company_currency)
-                    else:
-                        multi_currency = 0
-                        exchange_rate = 1
+                if company_currency != row.request_currency:
+                    multi_currency = 1
+                    exchange_rate = get_exchange_rate(row.request_currency, company_currency)
+                else:
+                    multi_currency = 0
+                    exchange_rate = 1
 
-                    if row.request_currency != row.expense_account_currency:
-                        debit_amount = row.request_amount * exchange_rate
-                        debit_exchange_rate = exchange_rate
-                    else:
-                        debit_amount = row.request_amount
-                        debit_exchange_rate = 1
+                if row.request_currency != row.expense_account_currency:
+                    debit_amount = row.request_amount * exchange_rate
+                    debit_exchange_rate = exchange_rate
+                else:
+                    debit_amount = row.request_amount
+                    debit_exchange_rate = 1
 
-                    if row.request_currency != row.payable_account_currency:
-                        credit_amt = row.request_amount * exchange_rate
-                        credit_exchange_rate = exchange_rate
-                    else:
-                        credit_amt = row.request_amount
-                        credit_exchange_rate = 1
+                if row.request_currency != row.payable_account_currency:
+                    credit_amt = row.request_amount * exchange_rate
+                    credit_exchange_rate = exchange_rate
+                else:
+                    credit_amt = row.request_amount
+                    credit_exchange_rate = 1
 
-                    debit_row = dict(
-                        account=row.expense_account,
-                        exchange_rate=debit_exchange_rate,
-                        debit_in_account_currency=debit_amount,
-                        cost_center=doc.vehicle + " - " + company_abbr,
-                    )
-                    accounts.append(debit_row)
+                debit_row = dict(
+                    account=row.expense_account,
+                    exchange_rate=debit_exchange_rate,
+                    debit_in_account_currency=debit_amount,
+                    cost_center=doc.vehicle + " - " + company_abbr,
+                )
+                accounts.append(debit_row)
 
-                    credit_row = dict(
-                        account=row.payable_account,
-                        exchange_rate=credit_exchange_rate,
-                        credit_in_account_currency=credit_amt,
-                        cost_center=doc.vehicle + " - " + company_abbr,
-                    )
-                    accounts.append(credit_row)
+                credit_row = dict(
+                    account=row.payable_account,
+                    exchange_rate=credit_exchange_rate,
+                    credit_in_account_currency=credit_amt,
+                    cost_center=doc.vehicle + " - " + company_abbr,
+                )
+                accounts.append(credit_row)
 
                              
     if len(journal) > 0:

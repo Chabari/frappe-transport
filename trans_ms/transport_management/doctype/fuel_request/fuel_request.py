@@ -268,7 +268,13 @@ def create_stock_entry(doc):
     warehouse = frappe.get_value("Transport Settings", None, "vehicle_fuel_parent_warehouse")
     if not warehouse:
         frappe.throw(_("Please Set Fuel Warehouse in transport settings"))
-    item = {"item_code": fuel_item, "qty": doc.quantity, "valuation_rate": doc.cost_per_litre}
+        
+    company_abbr = frappe.db.get_value(
+            "Company",
+            parent_request_doc.company,
+            "abbr",
+        )
+    item = {"item_code": fuel_item, "qty": doc.quantity, "valuation_rate": doc.cost_per_litre, "cost_center": doc.vehicle + " - " + company_abbr,}
     stock_entry_doc = frappe.get_doc(
         dict(
             doctype="Stock Entry",

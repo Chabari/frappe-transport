@@ -543,7 +543,7 @@ def create_fund_jl_row(**args):
                 "abbr",
             )
             company = doc.company
-            user_remark = "Vehicle Trip No: {0}".format(doc.name)
+            user_remark = "Vehicle Trip No: {0} for Vehicle Reg {1}".format(doc.name, doc.vehicle)
             
             # ........................................................................
             

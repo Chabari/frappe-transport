@@ -213,7 +213,7 @@ class VehicleTrip(Document):
             if row.status not in  ["Rejected", "Approved"]:
                 frappe.throw("<b>All fuel requests must be on either approved or rejected before submitting the trip</b>")
             
-            if not row.journal_entry or not row.stock_entry:
+            if not row.journal_entry and not row.stock_entry:
                     frappe.throw("<b>All fuel requests must have a Journal Entry or Stock Entry before submitting the trip</b>")
 
         for row in self.main_requested_funds:

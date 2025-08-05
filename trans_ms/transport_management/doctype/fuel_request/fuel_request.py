@@ -274,7 +274,7 @@ def create_stock_entry(doc):
             parent_request_doc.company,
             "abbr",
         )
-    item = {"item_code": fuel_item, "qty": doc.quantity, "valuation_rate": doc.cost_per_litre, "cost_center": doc.vehicle + " - " + company_abbr,}
+    item = {"item_code": fuel_item, "qty": doc.quantity, "valuation_rate": doc.cost_per_litre, "cost_center": parent_request_doc.vehicle + " - " + company_abbr,}
     stock_entry_doc = frappe.get_doc(
         dict(
             doctype="Stock Entry",

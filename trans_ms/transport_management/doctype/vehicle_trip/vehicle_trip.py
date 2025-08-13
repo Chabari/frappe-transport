@@ -169,12 +169,13 @@ class VehicleTrip(Document):
                 if "Fully Processed" == doc.status:
                     doc.db_set("status", "Partially Processed")
             else:
+                vehicle = frappe.get_doc("Vehicle", self.vehicle)
                 fuel_request = frappe.new_doc("Fuel Request")
                 fuel_request.update(
                     {
-                        "vehicle_plate_number": self.get("vehicle_plate_number"),
+                        "vehicle_plate_number": vehicle.license_plate,
                         "customer": self.get("customer"),
-                        "vehicle": self.get("vehicle_plate_number"),
+                        "vehicle": vehicle.name,
                         "driver": self.get("driver"),
                         "reference_doctype": "Vehicle Trip",
                         "reference_docname": self.name,

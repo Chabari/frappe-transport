@@ -240,6 +240,18 @@ def create_vehicle_trip(**args):
             "reference_docname": args.reference_docname,
         },
     )
+    
+    order = frappe.get_doc("Transportation Order", doc.parent)
+    total_assigned = 0
+    for row in order.assign_transport:
+        total_assigned = total_assigned + row.get("net_weight", 0)
+
+    if order.custom_total_weight > total_assigned:
+        order.db_set("assignment_status", "Partially Assigned")
+    else:
+        order.db_set("assignment_status", "Fully Assigned")
+        
+    order.save(ignore_permissions=True)
 
     if existing_vehicle_trip:
         # Mark the request as open and update modified time

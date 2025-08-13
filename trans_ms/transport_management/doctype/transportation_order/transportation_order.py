@@ -39,27 +39,14 @@ class TransportationOrder(Document):
 
     def before_save(self):
         # For assignment status
-        if not self.assign_transport:
-            self.set("assignment_status", "Waiting Assignment")
-        elif self.cargo_type == "Container":
-            assigned_containers = []
-            for row in self.assign_transport:
-                assigned_containers.append(row.container_number)
+        total_assigned = 0
+        for row in self.assign_transport:
+            total_assigned = total_assigned + row.get("net_weight", 0)
 
-            for row in self.cargo:
-                if row.container_number not in assigned_containers:
-                    self.set("assignment_status", "Partially Assigned")
-                else:
-                    self.set("assignment_status", "Fully Assigned")
-        elif self.cargo_type == "Loose Cargo":
-            total_assigned = 0
-            for row in self.assign_transport:
-                total_assigned = total_assigned + row.get("amount", 0)
-
-            if self.amount > total_assigned:
-                self.set("assignment_status", "Partially Assigned")
-            else:
-                self.set("assignment_status", "Fully Assigned")
+        if self.custom_total_weight > total_assigned:
+            self.set("assignment_status", "Partially Assigned")
+        else:
+            self.set("assignment_status", "Fully Assigned")
 
     def get_all_children(self, parenttype=None):
         # If reference doctype is set

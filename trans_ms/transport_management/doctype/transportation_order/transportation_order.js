@@ -67,6 +67,7 @@ frappe.ui.form.on('Transportation Order', {
 			cur_frm.get_field("total_assigned_weight").wrapper.innerHTML = '<p class="text-muted small">Total Assigned Weight</p><b> ' + total_assigned.toLocaleString() +  ' Tonnes<br><br></b>'; 
 		}
 		frm.events.calculate_net_weight(frm);
+		frm.events.check_assignment_status(frm);
 
 
 	},
@@ -454,6 +455,27 @@ frappe.ui.form.on('Transportation Order', {
 			var table = '<table id="my-table"><thead><tr><th><p class="text-muted small">Total Assigned Weight: </p></th><th>' + total_assigned.toLocaleString() +  ' Tonnes</th></tr> <tr><th><p class="text-muted small">Total Unassigned Weight: </p></th><th>' + (total_ass - total_assigned).toLocaleString() +  ' Tonnes</th></tr></thead></table>'
 			// frm.get_field("total_assigned_weight").wrapper.innerHTML = '<p class="text-muted small">Total Assigned Weight</p><b> ' + total_assigned.toLocaleString() +  ' Tonnes<br><br></b>'; 
 			frm.get_field("total_assigned_weight").wrapper.innerHTML = table
+		}
+	},
+
+	check_assignment_status: function (frm) {
+		var total_assigned = 0;
+		var total_ass = 0;
+		if(frm.doc.custom_total_weight){
+			total_ass = frm.doc.custom_total_weight
+		}
+		if (frm.doc.assign_transport) {
+			frm.doc.assign_transport.forEach(function(row){			
+				total_assigned += row.net_weight;
+			});
+		}
+		if(total_assigned > 0 && frm.doc.assignment_status != "Fully Assigned"){
+			if(total_assigned < total_ass){
+				frm.set_value('assignment_status', "Partially Assigned");
+			}else{
+				frm.set_value('assignment_status', "Fully Assigned");
+			}
+			frm.save_or_update();
 		}
 	},
 

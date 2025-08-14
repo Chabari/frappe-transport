@@ -173,6 +173,18 @@ user_data_fields = [
 
 fixtures = [
     {
+        "doctype": "Print Format",
+        "filters": [
+            [
+                "doc_type",
+                "in",
+                (
+                    "Transportation Order", 
+                ),
+            ]
+        ],
+    },
+    {
         "doctype": "Custom Field",
         "filters": [
             [
@@ -187,7 +199,9 @@ fixtures = [
                     "Vehicle Trip-custom_transport_type",
                     "Vehicle-custom_default_fuel_expense_account",
                     "Vehicle Trip-custom_rate",
-                    "Vehicle Trip-custom_amount"
+                    "Vehicle Trip-custom_amount",
+                    "Transportation Order-custom_items_transported",
+                    "Vehicle Trip-custom_offloading_date"
                 ),
             ]
         ],

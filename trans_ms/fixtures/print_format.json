@@ -1,0 +1,33 @@
+[
+ {
+  "absolute_value": 0,
+  "align_labels_right": 0,
+  "css": null,
+  "custom_format": 0,
+  "default_print_language": "en",
+  "disabled": 0,
+  "doc_type": "Transportation Order",
+  "docstatus": 0,
+  "doctype": "Print Format",
+  "font": null,
+  "font_size": 14,
+  "format_data": "[{\"fieldname\": \"print_heading_template\", \"fieldtype\": \"Custom HTML\", \"options\": \"<div class=\\\"print-heading\\\">\\t\\t\\t\\t<h2><div>Transportation Order</div><br><small class=\\\"sub-heading\\\">{{ doc.name }}</small>\\t\\t\\t\\t</h2></div>\"}, {\"fieldtype\": \"Section Break\", \"label\": \"\"}, {\"fieldtype\": \"Column Break\"}, {\"fieldname\": \"date\", \"print_hide\": 0, \"align\": \"right\", \"label\": \"Date\"}, {\"fieldname\": \"customer\", \"print_hide\": 0, \"align\": \"right\", \"label\": \"Customer \"}, {\"fieldname\": \"custom_items_transported\", \"print_hide\": 0, \"align\": \"right\", \"label\": \"Items Transported\"}, {\"fieldname\": \"custom_total_weight\", \"print_hide\": 0, \"align\": \"right\", \"label\": \"Total Weight(Tonnes)\"}, {\"fieldname\": \"loading_date\", \"print_hide\": 0, \"label\": \"Expected Loading Date\"}, {\"fieldtype\": \"Column Break\"}, {\"fieldname\": \"transport_type\", \"print_hide\": 0, \"align\": \"right\", \"label\": \"Transport Type\"}, {\"fieldname\": \"cargo_location_city\", \"print_hide\": 0, \"align\": \"right\", \"label\": \"Cargo Location City\"}, {\"fieldname\": \"cargo_destination_city\", \"print_hide\": 0, \"align\": \"right\", \"label\": \"Cargo Destination City\"}, {\"fieldtype\": \"Section Break\", \"label\": \"Consignee and Shipper\"}, {\"fieldtype\": \"Column Break\"}, {\"fieldname\": \"consignee\", \"print_hide\": 0, \"label\": \"Consignee\"}, {\"fieldtype\": \"Column Break\"}, {\"fieldname\": \"shipper\", \"print_hide\": 0, \"label\": \"Shipper\"}, {\"fieldtype\": \"Section Break\", \"label\": \"Border and Transport Instructions\"}, {\"fieldtype\": \"Column Break\"}, {\"fieldname\": \"border1_clearing_agent\", \"print_hide\": 0, \"label\": \"Clearing Agent Border 1\"}, {\"fieldname\": \"border2_clearing_agent\", \"print_hide\": 0, \"label\": \"Clearing Agent Border 2\"}, {\"fieldname\": \"border3_clearing_agent\", \"print_hide\": 0, \"label\": \"Clearing Agent Border 3\"}, {\"fieldtype\": \"Column Break\"}, {\"fieldname\": \"special_instructions_to_transporter\", \"print_hide\": 0, \"label\": \"Special Instructions to Transporter\"}, {\"fieldtype\": \"Section Break\", \"label\": \"Cargo Information\"}, {\"fieldtype\": \"Column Break\"}, {\"fieldname\": \"cargo_type\", \"print_hide\": 0, \"label\": \"Cargo Type\"}, {\"fieldname\": \"cargo_description\", \"print_hide\": 0, \"label\": \"Cargo Description\"}, {\"fieldname\": \"cargo\", \"print_hide\": 0, \"label\": \"Cargo\", \"visible_columns\": [{\"fieldname\": \"container_size\", \"print_width\": \"\", \"print_hide\": 0}, {\"fieldname\": \"container_number\", \"print_width\": \"\", \"print_hide\": 0}, {\"fieldname\": \"bl_number\", \"print_width\": \"\", \"print_hide\": 0}, {\"fieldname\": \"seal_number\", \"print_width\": \"\", \"print_hide\": 0}, {\"fieldname\": \"no_of_packages\", \"print_width\": \"\", \"print_hide\": 0}, {\"fieldname\": \"net_weight\", \"print_width\": \"\", \"print_hide\": 0}, {\"fieldname\": \"gross_weight\", \"print_width\": \"\", \"print_hide\": 0}, {\"fieldname\": \"tare_weight\", \"print_width\": \"\", \"print_hide\": 0}, {\"fieldname\": \"cargo_location_country\", \"print_width\": \"\", \"print_hide\": 0}, {\"fieldname\": \"cargo_location_city\", \"print_width\": \"\", \"print_hide\": 0}, {\"fieldname\": \"cargo_destination_country\", \"print_width\": \"\", \"print_hide\": 0}, {\"fieldname\": \"cargo_destination_city\", \"print_width\": \"\", \"print_hide\": 0}, {\"fieldname\": \"cargo_type\", \"print_width\": \"\", \"print_hide\": 0}, {\"fieldname\": \"extra_details\", \"print_width\": \"\", \"print_hide\": 0}, {\"fieldname\": \"assigned_driver\", \"print_width\": \"\", \"print_hide\": 0}, {\"fieldname\": \"assigned_vehicle\", \"print_width\": \"\", \"print_hide\": 0}, {\"fieldname\": \"transport_status\", \"print_width\": \"\", \"print_hide\": 0}]}, {\"fieldname\": \"html1\", \"print_hide\": 0}, {\"fieldtype\": \"Section Break\", \"label\": \"Vehicle Assignment\"}, {\"fieldtype\": \"Column Break\"}, {\"fieldname\": \"total_assigned_weight\", \"print_hide\": 0, \"label\": \"Total Assigned Weight\"}, {\"fieldname\": \"assign_transport\", \"print_hide\": 0, \"label\": \"Assign Vehicle\", \"visible_columns\": [{\"fieldname\": \"assigned_vehicle\", \"print_width\": \"\", \"print_hide\": 0}, {\"fieldname\": \"assigned_trailer\", \"print_width\": \"\", \"print_hide\": 0}, {\"fieldname\": \"driver_name\", \"print_width\": \"\", \"print_hide\": 0}, {\"fieldname\": \"net_weight\", \"print_width\": \"\", \"print_hide\": 0}, {\"fieldname\": \"rate\", \"print_width\": \"\", \"print_hide\": 0}, {\"fieldname\": \"total\", \"print_width\": \"\", \"print_hide\": 0}]}, {\"fieldname\": \"total_assigned\", \"print_hide\": 0, \"label\": \"Total Assigned Cargo\"}, {\"fieldname\": \"create_invoice\", \"print_hide\": 0, \"label\": \"Create Invoice\"}, {\"fieldtype\": \"Section Break\", \"label\": \"References\"}, {\"fieldtype\": \"Column Break\"}, {\"fieldname\": \"reference_doctype\", \"print_hide\": 0, \"label\": \"Request Origin\"}, {\"fieldname\": \"reference_docname\", \"print_hide\": 0, \"label\": \"Requested From\"}, {\"fieldtype\": \"Column Break\"}, {\"fieldname\": \"cargo_name\", \"print_hide\": 0, \"label\": \"Cargo Name\"}, {\"fieldname\": \"assignment_status\", \"print_hide\": 0, \"align\": \"right\", \"label\": \"Assignment Status\"}, {\"fieldname\": \"units\", \"print_hide\": 0, \"label\": \"Unit\"}]",
+  "html": null,
+  "line_breaks": 0,
+  "margin_bottom": 15.0,
+  "margin_left": 15.0,
+  "margin_right": 15.0,
+  "margin_top": 15.0,
+  "modified": "2025-08-14 10:35:13.297542",
+  "module": "Transport Management",
+  "name": "Transportation Order",
+  "page_number": "Hide",
+  "print_format_builder": 0,
+  "print_format_builder_beta": 0,
+  "print_format_type": "Jinja",
+  "raw_commands": null,
+  "raw_printing": 0,
+  "show_section_headings": 0,
+  "standard": "No"
+ }
+]

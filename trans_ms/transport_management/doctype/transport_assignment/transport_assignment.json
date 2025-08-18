@@ -11,6 +11,7 @@
   "cargo",
   "amount",
   "expected_loading_date",
+  "transported_item",
   "column_break_4",
   "container_number",
   "net_weight",
@@ -35,7 +36,6 @@
   "column_break_21",
   "status",
   "created_trip",
-  "section_extra",
   "section_break_30",
   "item",
   "customer",
@@ -241,11 +241,6 @@
    "read_only": 1
   },
   {
-   "fieldname": "section_extra",
-   "fieldtype": "Section Break",
-   "label": "Extra Info"
-  },
-  {
    "fieldname": "loading_date",
    "fieldtype": "Date",
    "label": "Loading Date"
@@ -428,12 +423,18 @@
    "fieldtype": "Link",
    "label": "Cargo Destination City",
    "options": "Transport Location"
+  },
+  {
+   "fieldname": "transported_item",
+   "fieldtype": "Small Text",
+   "label": "Transported Item",
+   "reqd": 1
   }
  ],
  "is_submittable": 1,
  "istable": 1,
  "links": [],
- "modified": "2024-11-24 19:23:47.839786",
+ "modified": "2025-08-18 11:32:28.939014",
  "modified_by": "Administrator",
  "module": "Transport Management",
  "name": "Transport Assignment",

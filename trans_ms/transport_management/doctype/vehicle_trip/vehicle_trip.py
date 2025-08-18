@@ -225,6 +225,7 @@ class VehicleTrip(Document):
                 if not row.journal_entry:
                     frappe.throw("<b>All approved fund requests must have a Journal Entry or Stock Entry before submitting the trip</b>")
 
+        self.trip_completed = 1
 
 @frappe.whitelist(allow_guest=True)
 def create_vehicle_trip(**args):
@@ -279,6 +280,7 @@ def create_vehicle_trip(**args):
                 "customer": args.customer,
                 "trip_route": args.trip_route,
                 "vehicle": args.vehicle,
+                "transport_item": doc.transported_item,
                 "custom_rate": doc.rate,
                 "custom_amount": (doc.rate * doc.net_weight),
                 "transporter": args.transporter,
@@ -732,3 +734,19 @@ def create_purchase_order(request_doc, item):
     frappe.msgprint(_("Purchase Order {0} is created").format(doc.name))
     frappe.set_value(item.doctype, item.name, "purchase_order", doc.name)
     return doc.name
+
+@frappe.whitelist(allow_guest=True)
+def complete_vehicle_trip(**args):
+    try:
+        trip = frappe.get_doc("Vehicle Trip", args.get('name'))
+        trip.custom_offloaded_quantity = args.get('quantity')
+        trip.custom_offloading_date = args.get('end_date')
+        trip.save(ignore_permissions=True)
+        trip.flags.ignore_permissions = True
+        trip.submit()
+        frappe.response.message = "Success. Trip has ended successfully"
+    except Exception as e:
+        frappe.log_error(frappe.get_traceback(), str(e))
+        frappe.response.message = str(e)
+        
+  

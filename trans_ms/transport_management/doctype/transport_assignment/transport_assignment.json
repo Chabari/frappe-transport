@@ -204,8 +204,7 @@
    "fieldtype": "Link",
    "in_list_view": 1,
    "label": "Trip Route",
-   "options": "Trip Route",
-   "reqd": 1
+   "options": "Trip Route"
   },
   {
    "fieldname": "vehicle_status",
@@ -355,8 +354,7 @@
    "fieldtype": "Currency",
    "in_list_view": 1,
    "label": "Rate(per Tonne)",
-   "options": "currency",
-   "reqd": 1
+   "options": "currency"
   },
   {
    "fieldname": "invoice",
@@ -380,8 +378,7 @@
    "fieldname": "net_weight",
    "fieldtype": "Float",
    "in_list_view": 1,
-   "label": "Net Weight (Tonnes)",
-   "reqd": 1
+   "label": "Net Weight (Tonnes)"
   },
   {
    "fieldname": "total",
@@ -427,14 +424,13 @@
   {
    "fieldname": "transported_item",
    "fieldtype": "Small Text",
-   "label": "Transported Item",
-   "reqd": 1
+   "label": "Transported Item"
   }
  ],
  "is_submittable": 1,
  "istable": 1,
  "links": [],
- "modified": "2025-08-18 11:32:28.939014",
+ "modified": "2025-08-27 06:02:48.439080",
  "modified_by": "Administrator",
  "module": "Transport Management",
  "name": "Transport Assignment",

@@ -528,17 +528,13 @@ frappe.ui.form.on('Vehicle Trip', {
         });
 
         if (frm.doc.trip_completed == 0) {
-            frm.add_custom_button(__("Complete Trip"), function () {
+            if(frm.doc.custom_transport_type == "Town Trip"){
+
+                frm.add_custom_button(__("Complete Trip"), function () {
                 
                 var d = new frappe.ui.Dialog({
-                    title: __('Enter Offloaded Quantity'),
+                    title: __('Enter Trip End Date'),
                     fields: [
-                        {
-                            "label" : "Quantity",
-                            "fieldname": "quantity",
-                            "fieldtype": "Float",
-                            "reqd": 1,
-                        },
                         {
                             "label" : "Trip End Date",
                             "fieldname": "end_date",
@@ -552,7 +548,6 @@ frappe.ui.form.on('Vehicle Trip', {
                             method: "trans_ms.transport_management.doctype.vehicle_trip.vehicle_trip.complete_vehicle_trip",
                             args: {
                                 name: frm.doc.name,
-                                quantity: data.quantity,
                                 end_date: data.end_date,
                             },
                             callback: function(r) {
@@ -570,6 +565,52 @@ frappe.ui.form.on('Vehicle Trip', {
 
 
             });
+
+            }else{
+                frm.add_custom_button(__("Complete Trip"), function () {
+                
+                    var d = new frappe.ui.Dialog({
+                        title: __('Enter Offloaded Quantity'),
+                        fields: [
+                            {
+                                "label" : "Quantity",
+                                "fieldname": "quantity",
+                                "fieldtype": "Float",
+                                "reqd": 1,
+                            },
+                            {
+                                "label" : "Trip End Date",
+                                "fieldname": "end_date",
+                                "fieldtype": "Date",
+                                "reqd": 1,
+                            }
+                        ],
+                        primary_action: function() {
+                            var data = d.get_values();
+                            frappe.call({
+                                method: "trans_ms.transport_management.doctype.vehicle_trip.vehicle_trip.complete_vehicle_trip",
+                                args: {
+                                    name: frm.doc.name,
+                                    quantity: data.quantity,
+                                    end_date: data.end_date,
+                                },
+                                callback: function(r) {
+                                    frappe.msgprint(__(r.message));
+                                    
+                                    d.hide();
+                                    frm.reload_doc();
+                                    
+                                }
+                            });
+                        },
+                        primary_action_label: __('Complete Trip')
+                    });
+                    d.show();
+
+
+                });
+            }
+            
         }
     },
 

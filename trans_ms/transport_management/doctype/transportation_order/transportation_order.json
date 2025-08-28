@@ -101,7 +101,7 @@
    "fieldname": "transport_type",
    "fieldtype": "Select",
    "label": "Transport Type",
-   "options": "Cross Border\nInternal"
+   "options": "Cross Border\nInternal\nTown Trip"
   },
   {
    "fieldname": "cargo_location_country",
@@ -316,7 +316,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-11-24 20:23:12.919208",
+ "modified": "2025-08-26 19:28:12.643543",
  "modified_by": "Administrator",
  "module": "Transport Management",
  "name": "Transportation Order",

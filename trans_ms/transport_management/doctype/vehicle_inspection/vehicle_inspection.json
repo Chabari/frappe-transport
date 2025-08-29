@@ -13,6 +13,7 @@
   "column_break_5",
   "date",
   "mileage",
+  "vehicle_status",
   "checklist_section_break",
   "vehicle_type",
   "lighting_checklist_section",
@@ -40,7 +41,8 @@
   "tire_checklist_section",
   "tire_checklist",
   "vehicle_tires_status_and_pressure_section",
-  "image_upload"
+  "image_upload",
+  "amended_from"
  ],
  "fields": [
   {
@@ -222,13 +224,33 @@
    "fieldname": "tire_checklist_section",
    "fieldtype": "Section Break",
    "label": "Tire Checklist"
+  },
+  {
+   "fieldname": "vehicle_status",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Vehicle Status",
+   "options": "\nBooked\nUnder Repair\nGrounded\nServicing\nGood",
+   "reqd": 1
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "Vehicle Inspection",
+   "print_hide": 1,
+   "read_only": 1,
+   "search_index": 1
   }
  ],
+ "is_submittable": 1,
  "links": [],
- "modified": "2022-02-16 06:25:43.296277",
+ "modified": "2025-08-29 06:50:51.479233",
  "modified_by": "Administrator",
  "module": "Transport Management",
  "name": "Vehicle Inspection",
+ "naming_rule": "Expression (old style)",
  "owner": "Administrator",
  "permissions": [
   {
@@ -247,6 +269,7 @@
  "search_fields": "trip_reference,vehicle_type,driver_name,vehicle_plate_number",
  "sort_field": "modified",
  "sort_order": "DESC",
+ "states": [],
  "title_field": "vehicle_plate_number",
  "track_changes": 1
 }

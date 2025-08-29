@@ -29,6 +29,16 @@ frappe.ui.form.on('Transportation Order', {
 				}
 			};
 		});
+
+		frm.set_query("assigned_vehicle", "assign_transport", function (doc, cdt, cdn) {
+			const row = frappe.get_doc(cdt, cdn);
+			console.log(row, cdt, cdn);
+			return {
+				filters: {
+					status: "Good",
+				}
+			};
+		});
 	},
 
 	refresh: function (frm, cdt, cdn) {

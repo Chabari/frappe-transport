@@ -116,7 +116,7 @@ class VehicleTrip(Document):
                     fixed_expense_doc = frappe.get_doc("Fixed Expense", row.expense)
                     aday = nowdate()
                     new_row = self.append("main_requested_funds", {})
-                    item = next((row for xrow in initial_payments if xrow.expense_type == row.expense), None)
+                    item = next((xrow for xrow in initial_payments if xrow.expense_type == row.expense), None)
                     new_row.request_date = aday
                     new_row.request_amount = row.amount
                     new_row.request_currency = row.currency

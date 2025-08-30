@@ -113,16 +113,16 @@ class VehicleTrip(Document):
                 initial_payments = self.main_requested_funds
                 self.main_requested_funds = []
                 for row in reference_route.fixed_expenses:
-                    fixed_expense_doc = frappe.get_doc("Fixed Expense", row.expense)
+                    fixed_expense_doc = frappe.get_doc("Fixed Expense", row.expense_type)
                     aday = nowdate()
                     new_row = self.append("main_requested_funds", {})
-                    item = next((row for row in initial_payments if row.expense_type == row.expense), None)
+                    item = next((row for xrow in initial_payments if xrow.expense_type == row.expense_type), None)
                     new_row.request_date = aday
                     new_row.request_amount = row.amount
                     new_row.request_currency = row.currency
                     new_row.request_status = item.request_status if item else "Pre-Approved"
                     new_row.journal_entry = item.journal_entry if item else None
-                    new_row.expense_type = row.expense
+                    new_row.expense_type = row.expense_type
                     new_row.expense_account = fixed_expense_doc.expense_account
                     new_row.payable_account = fixed_expense_doc.cash_bank_account
                     new_row.party_type = row.party_type

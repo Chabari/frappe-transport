@@ -87,12 +87,10 @@ class VehicleTrip(Document):
 
     def validate(self):
         self.validate_fuel_requests()
-        self.validate_expense_request()
         self.set_permits()
         
     def validate_expense_request(self):
-        if self.main_requested_funds:
-            print("xxxxxxxxxxxxxxxxxxxxxxxxxx")
+        if self.main_requested_funds and self.custom_transport_type == "Town Trip":
             funds_args = {
                 "reference_doctype": "Vehicle Trip",
                 "reference_docname": self.name,
@@ -154,7 +152,8 @@ class VehicleTrip(Document):
 
     def before_save(self):
         # validate_requested_funds(self)
-        self.set_expenses()
+        # self.set_expenses()
+        self.validate_expense_request()
         self.validate_main_route_inputs()
         
 
@@ -291,7 +290,7 @@ def create_vehicle_trip(**args):
                 "main_cargo_location_city": doc.cargo_location_city,
                 "main_cargo_destination_country": doc.cargo_destination_country,
                 "main_cargo_destination_city": doc.cargo_destination_city,
-                "custom_transport_type": args.transport_type,
+                "custom_transport_type": order.transport_type,
                 "custom_transport_order": doc.parent,
                 "main_cargo_category": None,
                 "customer": args.customer,
@@ -361,7 +360,7 @@ def create_vehicle_trip(**args):
                 main_fuel_request.append(row)
                 trip.set('main_fuel_request', main_fuel_request)
                 trip.fuel_stock_out = flt(main_route.total_fuel_consumption_qty)
-                trip.save(ignore_permissions=True)
+        trip.save(ignore_permissions=True)
 
 
         # If company vehicle, update vehicle status

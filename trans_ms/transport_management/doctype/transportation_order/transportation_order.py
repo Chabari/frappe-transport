@@ -325,20 +325,22 @@ def create_sales_invoice(**args):
         "abbr",
     )
     for row in rows:
-        description = row.get('transported_item') if row.get('transported_item') else ""
-        description += ": <b>" + row.get('assigned_vehicle') + "/" + row.get("assigned_trailer") if row.get("assigned_trailer") else ""+"<b>"
-        # if row["route"]:
-        #     description += "<BR>ROUTE: " + row["route"]
+        description = row.get('assigned_vehicle')
+        if row.get('transported_item'):
+            description += row.get('transported_item')
+        if row.get("assigned_trailer"):
+            description += "/" + row.get("assigned_trailer")
+            
         item = frappe._dict({
-                "item_code": row["item"],
+                "item_code": row.get('item'),
                 "qty": row.get('net_weight') if row.get('net_weight') else 1,
-                "uom": frappe.get_value("Item", row["item"], "stock_uom"),
-                "rate": row["rate"],
+                "uom": frappe.get_value("Item", row.get('item'), "stock_uom"),
+                "rate": row.get('rate'),
                 "weight_per_unit": row.get('net_weight') if row.get('net_weight') else 1,
                 "reference_dt": "Transport Assignment",
                 "reference_dn": row.get('name'),
                 "cost_center": row.get('assigned_vehicle') + " - " + company_abbr,
-                "description": description,
+                "description": description if description else row.get('item'),
             }
         )
         item_row_per.append([row, item])

@@ -326,19 +326,18 @@ def create_sales_invoice(**args):
     )
     for row in rows:
         description = row.get('transported_item') if row.get('transported_item') else ""
-        if row["assigned_vehicle"]:
-            description += ": <b>" + row["assigned_vehicle"] + "/"+row["assigned_trailer"] if row.get("assigned_trailer") else ""+"<b>"
+        description += ": <b>" + row.get('assigned_vehicle') + "/" + row.get("assigned_trailer") if row.get("assigned_trailer") else ""+"<b>"
         # if row["route"]:
         #     description += "<BR>ROUTE: " + row["route"]
         item = frappe._dict({
                 "item_code": row["item"],
-                "qty": row['net_weight'] if row['net_weight'] else 1,
+                "qty": row.get('net_weight') if row.get('net_weight') else 1,
                 "uom": frappe.get_value("Item", row["item"], "stock_uom"),
                 "rate": row["rate"],
-                "weight_per_unit": row['net_weight'] if row['net_weight'] else 1,
+                "weight_per_unit": row.get('net_weight') if row.get('net_weight') else 1,
                 "reference_dt": "Transport Assignment",
-                "reference_dn": row['name'],
-                "cost_center": row["assigned_vehicle"] + " - " + company_abbr,
+                "reference_dn": row.get('name'),
+                "cost_center": row.get('assigned_vehicle') + " - " + company_abbr,
                 "description": description,
             }
         )

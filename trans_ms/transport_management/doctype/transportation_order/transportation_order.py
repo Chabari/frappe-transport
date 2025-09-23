@@ -315,7 +315,7 @@ def create_sales_invoice(**args):
     rows = []
     if args.get("rows"):
         rows = json.loads(args.get("rows"))
-    if not rows and doc.transport_type != "Town Trip":
+    if not rows:
         return
     items = []
     item_row_per = []
@@ -324,47 +324,27 @@ def create_sales_invoice(**args):
         doc.company,
         "abbr",
     )
-    if doc.transport_type != "Town Trip":
-        for row in rows:
-            description = row["transported_item"]
-            if row["assigned_vehicle"]:
-                description += ": <b>" + row["assigned_vehicle"] + "/"+row["assigned_trailer"] if row.get("assigned_trailer") else ""+"<b>"
-            # if row["route"]:
-            #     description += "<BR>ROUTE: " + row["route"]
-            item = frappe._dict({
-                    "item_code": row["item"],
-                    "qty": row['net_weight'],
-                    "uom": frappe.get_value("Item", row["item"], "stock_uom"),
-                    "rate": row["rate"],
-                    "weight_per_unit": row['net_weight'],
-                    "reference_dt": "Transport Assignment",
-                    "reference_dn": row['name'],
-                    "cost_center": row["assigned_vehicle"] + " - " + company_abbr,
-                    "description": description,
-                }
-            )
-            item_row_per.append([row, item])
-            items.append(item)
-    else:
-        description = "Transport Order"
-        transport_item = frappe.get_value("Transport Settings", None, "transport_item")
-        if not transport_item:
-            frappe.throw(_("Please Set default Transport Item in Transport Settings"))
+    for row in rows:
+        description = row.get('transported_item') if row.get('transported_item') else ""
+        if row["assigned_vehicle"]:
+            description += ": <b>" + row["assigned_vehicle"] + "/"+row["assigned_trailer"] if row.get("assigned_trailer") else ""+"<b>"
+        # if row["route"]:
+        #     description += "<BR>ROUTE: " + row["route"]
         item = frappe._dict({
-                "item_code": transport_item,
-                "qty": 1,
-                "uom": frappe.get_value("Item", transport_item, "stock_uom"),
-                "rate": doc.custom_order_amount,
-                "weight_per_unit": 1,
-                "reference_dt": "Transportation Order",
-                "reference_dn": doc.name,
-                "cost_center": get_default_cost_center(doc.company),
+                "item_code": row["item"],
+                "qty": row['net_weight'] if row['net_weight'] else 1,
+                "uom": frappe.get_value("Item", row["item"], "stock_uom"),
+                "rate": row["rate"],
+                "weight_per_unit": row['net_weight'] if row['net_weight'] else 1,
+                "reference_dt": "Transport Assignment",
+                "reference_dn": row['name'],
+                "cost_center": row["assigned_vehicle"] + " - " + company_abbr,
                 "description": description,
             }
         )
-        item_row_per.append([doc, item])
+        item_row_per.append([row, item])
         items.append(item)
-        
+    
             
     invoice = frappe.get_doc(
         dict(
@@ -387,13 +367,9 @@ def create_sales_invoice(**args):
     invoice.flags.ignore_mandatory = True
     invoice.calculate_taxes_and_totals()
     invoice.insert(ignore_permissions=True)
-    if doc.transport_type != "Town Trip":
-        for item in doc.assign_transport:
-            if item.name in [i["name"] for i in rows]:
-                item.invoice = invoice.name
-    else:
-        doc.custom_sales_invoice = invoice.name
-        doc.assignment_status = "Fully Assigned"
+    for item in doc.assign_transport:
+        if item.name in [i["name"] for i in rows]:
+            item.invoice = invoice.name
     doc.save()
     # frappe.msgprint(_("Sales Inoice {0} Created").format(invoice.name), alert=True)
     return invoice

@@ -78,6 +78,15 @@ frappe.ui.form.on('Transportation Order', {
 		if(total_assigned > 0){
 			cur_frm.get_field("total_assigned_weight").wrapper.innerHTML = '<p class="text-muted small">Total Assigned Weight</p><b> ' + total_assigned.toLocaleString() +  ' Tonnes<br><br></b>'; 
 		}
+		var total_assigned_amount = 0;
+		if(cur_frm.doc.transport_type == "Town Trip"){
+			cur_frm.doc.assign_transport.forEach(function(row){			
+				total_assigned_amount += row.rate;
+			});
+		}
+		if(total_assigned_amount > 0){
+			cur_frm.get_field("total_assigned_weight").wrapper.innerHTML = '<p class="text-muted small">Total Assigned Amount/Invoiced</p><b> TZS' + total_assigned_amount.toLocaleString() +  ' <br><br></b>'; 
+		}
 		frm.events.calculate_net_weight(frm);
 		frm.events.check_assignment_status(frm);
 
@@ -453,6 +462,7 @@ frappe.ui.form.on('Transportation Order', {
 	},
 
 	calculate_net_weight: function (frm) {
+		frm.events.set_items_rate(frm)
 		var total_assigned = 0;
 		var total_ass = 0;
 		if(frm.doc.transport_type != "Town Trip"){
@@ -497,17 +507,19 @@ frappe.ui.form.on('Transportation Order', {
 
 
 	set_items_rate: function (frm) {
-		if(frm.doc.transport_type != "Town Trip"){
-			frm.doc.assign_transport.forEach(function (row) {
-				if(row.rate && frm.doc.exchange_rate){
-					var weight = row.net_weight
-					var rate_tone = row.rate
-					var exchange_rate = frm.doc.exchange_rate
-					var total = weight * rate_tone * exchange_rate
-					frappe.model.set_value('Transport Assignment', row.name, 'total', total);
+		frm.doc.assign_transport.forEach(function (row) {
+			if(row.rate && frm.doc.exchange_rate){
+				var weight = 1
+				if (row.net_weight){
+					weight = row.net_weight
 				}
-			});
-		}
+				var rate_tone = row.rate
+				var exchange_rate = frm.doc.exchange_rate
+				var total = weight * rate_tone * exchange_rate
+				frappe.model.set_value('Transport Assignment', row.name, 'total', total);
+			}
+		});
+		
 		frm.refresh_field('assign_transport');
 	},
 	create_invoice: (frm) => {
@@ -515,43 +527,27 @@ frappe.ui.form.on('Transportation Order', {
 			frappe.throw(__("Plase Save First"));
 			return;
 		}
-		if(frm.doc.transport_type != "Town Trip"){
-			let selected = frm.get_selected().assign_transport;
-			if (selected) {
-				let rows = frm.doc.assign_transport.filter(i => selected.includes(i.name) && !i.invoice);
-				if (rows.length) {
-					frappe.call({
-						method: "trans_ms.transport_management.doctype.transportation_order.transportation_order.create_sales_invoice",
-						args: {
-							doc: frm.doc,
-							rows: rows
-						},
-						callback: function (data) {
-							frappe.set_route('Form', data.message.doctype, data.message.name);
-						}
-					});
-				} else {
-					frappe.msgprint(__("All Rows Invoiced!"));
-				}
-			} else {
-				frappe.msgprint(__("No Rows Selected!"));
-			}
-		}else{
-			if(!frm.doc.custom_sales_invoice){
+		let selected = frm.get_selected().assign_transport;
+		if (selected) {
+			let rows = frm.doc.assign_transport.filter(i => selected.includes(i.name) && !i.invoice);
+			if (rows.length) {
 				frappe.call({
 					method: "trans_ms.transport_management.doctype.transportation_order.transportation_order.create_sales_invoice",
 					args: {
-						doc: frm.doc
+						doc: frm.doc,
+						rows: rows
 					},
 					callback: function (data) {
 						frappe.set_route('Form', data.message.doctype, data.message.name);
 					}
 				});
-			}else{
-				frappe.msgprint(__("Order has already been invoiced!"));
-
+			} else {
+				frappe.msgprint(__("All Rows Invoiced!"));
 			}
+		} else {
+			frappe.msgprint(__("No Rows Selected!"));
 		}
+		
 	},
 });
 
@@ -674,12 +670,14 @@ frappe.ui.form.on("Transport Assignment", {
 	},
 
 	rate: function (frm, cdt, cdn) {
-		if(frm.doc.transport_type != "Town Trip"){
-			var weight = locals[cdt][cdn].net_weight
-			var rate_tone = locals[cdt][cdn].rate
-			var exchange_rate = frm.doc.exchange_rate
-			frappe.model.set_value(cdt, cdn, 'total', (weight * rate_tone * exchange_rate));
+		var weight = 1
+		if(locals[cdt][cdn].net_weight){
+			weight = locals[cdt][cdn].net_weight
 		}
+		var rate_tone = locals[cdt][cdn].rate
+		var exchange_rate = frm.doc.exchange_rate
+		frappe.model.set_value(cdt, cdn, 'total', (weight * rate_tone * exchange_rate));
+	
 	},
 
 	vehicle_plate_number: function (frm, cdt, cdn) {

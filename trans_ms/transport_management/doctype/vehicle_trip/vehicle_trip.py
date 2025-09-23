@@ -298,7 +298,7 @@ def create_vehicle_trip(**args):
                 "vehicle": args.vehicle,
                 "transport_item": doc.transported_item,
                 "custom_rate": doc.rate,
-                "custom_amount": (doc.rate * doc.net_weight) if order.transport_type != "Town Trip" else 0,
+                "custom_amount": (doc.rate * doc.net_weight),
                 "transporter": args.transporter,
                 "driver": args.driver,
             }

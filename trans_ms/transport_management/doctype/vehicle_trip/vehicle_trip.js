@@ -1142,6 +1142,12 @@ frappe.ui.form.on('Fuel Request Table', {
             frappe.model.set_value(cdt, cdn, 'total_cost', total);
         }
     },
+    quantity: function (frm, cdt, cdn) {
+        if (locals[cdt][cdn].cost_per_litre && locals[cdt][cdn].quantity) {
+            var total = locals[cdt][cdn].cost_per_litre * locals[cdt][cdn].quantity;
+            frappe.model.set_value(cdt, cdn, 'total_cost', total);
+        }
+    },
 
     create_purchase_order: (frm, cdt, cdn) => {
         const row = locals[cdt][cdn];

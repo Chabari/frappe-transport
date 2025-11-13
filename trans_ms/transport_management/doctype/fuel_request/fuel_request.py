@@ -375,7 +375,10 @@ def create_fuel_jounal(doc):
     si_msgprint = "Journal Entry Created <a href='{0}'>{1}</a>".format(
         jv_url, jv_doc.name
     )
-    frappe.set_value("Fuel Request Table", doc.name, "journal_entry", jv_doc.name)
+    req_table = frappe.get_doc('Fuel Request Table', doc.name)
+    req_table.journal_entry = jv_doc.name
+    req_table.save(ignore_permissions=True)
+    # frappe.set_value("Fuel Request Table", doc.name, "journal_entry", jv_doc.name)
     return jv_doc
 
 
